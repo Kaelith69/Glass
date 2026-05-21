@@ -1,0 +1,6 @@
+{
+  "name": "CineCommon",
+  "description": "A cinematic, bespoke community-driven movie identity, collaborative database, and review platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
