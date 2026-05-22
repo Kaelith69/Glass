@@ -14,6 +14,11 @@ It lets users claim a profile, browse seeded films, search and filter the catalo
 The app is deliberately local-first: the current code path stores its state in Room and does not make runtime network calls.
 Some dependencies in the build file are future-facing rather than active. Ambition is cheap; wiring is work.
 
+## Download
+
+- [Latest APK release](https://github.com/Kaelith69/Glass/releases/latest/download/app-release.apk)
+- [All releases](https://github.com/Kaelith69/Glass/releases)
+
 ## Why it exists
 
 Because movie apps usually stop at “here is a poster.”
