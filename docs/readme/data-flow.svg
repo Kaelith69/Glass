@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 940" role="img" aria-labelledby="title desc">
+  <title id="title">CineCommon data flow diagram</title>
+  <desc id="desc">From onboarding through ViewModel mutations into Room and back into reactive Compose screens.</desc>
+  <defs>
+    <style>
+      .bg { fill: #09090b; }
+      .panel { fill: #1a1a1d; stroke: rgba(255,255,255,.08); stroke-width: 1.5; }
+      .card { fill: rgba(255,255,255,.04); stroke: rgba(255,255,255,.10); stroke-width: 1.25; }
+      .title { fill: #fafafa; font: 700 20px Inter, Segoe UI, Arial, sans-serif; }
+      .text { fill: #a1a1aa; font: 500 15px Inter, Segoe UI, Arial, sans-serif; }
+      .small { fill: #a1a1aa; font: 500 13px Inter, Segoe UI, Arial, sans-serif; }
+      .accent { fill: #e53935; }
+      .gold { fill: #fbbf24; }
+      .line { stroke: #f4f4f5; stroke-opacity: .30; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .line2 { stroke: #fbbf24; stroke-opacity: .5; stroke-width: 3; fill: none; marker-end: url(#arrowGold); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f4f4f5" opacity=".9"/>
+    </marker>
+    <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#fbbf24" opacity=".9"/>
+    </marker>
+  </defs>
+  <rect width="1600" height="940" class="bg"/>
+  <rect x="56" y="42" width="1488" height="856" rx="28" class="panel"/>
+  <text x="88" y="92" class="title">Data flow</text>
+  <text x="88" y="120" class="text">Compose asks, ViewModel decides, Room persists, Flows come back to the UI. A surprisingly civil arrangement.</text>
+
+  <rect x="88" y="180" width="250" height="130" rx="20" class="card"/>
+  <text x="114" y="218" class="title" font-size="18">Onboarding</text>
+  <text x="114" y="246" class="small">Username claim</text>
+  <text x="114" y="270" class="small">Avatar, bio, taste tags</text>
+  <text x="114" y="294" class="small">Creates system lists + badge</text>
+
+  <rect x="88" y="360" width="250" height="130" rx="20" class="card"/>
+  <text x="114" y="398" class="title" font-size="18">Home / Discover / Details</text>
+  <text x="114" y="426" class="small">Collect StateFlows</text>
+  <text x="114" y="450" class="small">Search, filter, toggle, review</text>
+  <text x="114" y="474" class="small">Tap, flip, submit, repeat</text>
+
+  <rect x="420" y="216" width="280" height="240" rx="24" class="card"/>
+  <circle cx="470" cy="270" r="18" class="accent"/>
+  <text x="502" y="266" class="title" font-size="20">MainViewModel</text>
+  <text x="452" y="308" class="small">MutableStateFlow</text>
+  <text x="452" y="334" class="small">stateIn + flatMapLatest</text>
+  <text x="452" y="360" class="small">search / review / list / trust</text>
+  <text x="452" y="386" class="small">holds screen selections and flags</text>
+
+  <rect x="800" y="166" width="310" height="170" rx="24" class="card"/>
+  <text x="828" y="206" class="title" font-size="18">AppRepository</text>
+  <text x="828" y="234" class="small">Room DAO access + business rules</text>
+  <text x="828" y="260" class="small">• seed movies and badges</text>
+  <text x="828" y="284" class="small">• trust gating and moderation</text>
+  <text x="828" y="308" class="small">• notifications and rollbacks</text>
+
+  <rect x="1160" y="166" width="340" height="170" rx="24" class="card"/>
+  <text x="1188" y="206" class="title" font-size="18">Room database</text>
+  <text x="1188" y="234" class="small">users • movies • reviews</text>
+  <text x="1188" y="258" class="small">lists • badges • notifications</text>
+  <text x="1188" y="282" class="small">movie_edit_history</text>
+  <text x="1188" y="306" class="small">fallbackToDestructiveMigration(true)</text>
+
+  <path d="M338 245 H420" class="line"/>
+  <path d="M700 286 H800" class="line"/>
+  <path d="M1110 252 H1160" class="line"/>
+
+  <rect x="800" y="392" width="340" height="170" rx="24" class="card"/>
+  <text x="828" y="432" class="title" font-size="18">Reactive outputs</text>
+  <text x="828" y="460" class="small">Notifications flow back to the UI</text>
+  <text x="828" y="484" class="small">Reviews update taste DNA + counters</text>
+  <text x="828" y="508" class="small">Badge unlocks and trust changes re-render screens</text>
+  <text x="828" y="532" class="small">No polling. The database does the talking.</text>
+
+  <path d="M1110 508 H1160" class="line2"/>
+  <path d="M420 430 H338" class="line"/>
+  <path d="M800 466 H700" class="line2"/>
+
+  <rect x="420" y="590" width="1080" height="240" rx="24" class="card"/>
+  <text x="450" y="632" class="title" font-size="18">Important runtime rules</text>
+  <text x="450" y="668" class="small">• username must be unique, at least 3 chars, and not contain reserved terms</text>
+  <text x="450" y="696" class="small">• review text is capped at 2,000 characters and spoiler-safe by default</text>
+  <text x="450" y="724" class="small">• badges can only be pinned up to 6 at a time</text>
+  <text x="450" y="752" class="small">• trust score ≥ 70 fast-tracks edits; otherwise they enter moderation</text>
+  <text x="450" y="780" class="small">• rollback is allowed only for senior editors, because chaos needs a gate</text>
+</svg>
+

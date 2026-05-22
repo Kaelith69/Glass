@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 680" role="img" aria-labelledby="title desc">
+  <title id="title">CineCommon theme system</title>
+  <desc id="desc">Dark and light color schemes derived from the Compose theme files.</desc>
+  <defs>
+    <style>
+      .bg { fill: #09090b; }
+      .panel { fill: #1a1a1d; stroke: rgba(255,255,255,.08); stroke-width: 1.5; }
+      .title { fill: #fafafa; font: 700 20px Inter, Segoe UI, Arial, sans-serif; }
+      .text { fill: #a1a1aa; font: 500 15px Inter, Segoe UI, Arial, sans-serif; }
+      .small { fill: #a1a1aa; font: 500 13px Inter, Segoe UI, Arial, sans-serif; }
+      .chipLabel { fill: #fafafa; font: 600 13px Inter, Segoe UI, Arial, sans-serif; }
+      .mono { fill: #e5e7eb; font: 600 12px SFMono-Regular, Consolas, monospace; }
+    </style>
+  </defs>
+  <rect width="1600" height="680" class="bg"/>
+  <rect x="56" y="42" width="1488" height="596" rx="28" class="panel"/>
+  <text x="88" y="92" class="title">Theme system</text>
+  <text x="88" y="120" class="text">Material 3, but with a cinematic bias and a slight distrust of pastel optimism.</text>
+
+  <text x="90" y="170" class="title" font-size="18">Dark scheme</text>
+  <g transform="translate(90 196)">
+    <rect width="210" height="106" rx="18" fill="#0c0c0e"/>
+    <text x="18" y="28" class="chipLabel">CinematicBlack</text>
+    <text x="18" y="50" class="mono">#0C0C0E</text>
+    <text x="18" y="74" class="small">background</text>
+  </g>
+  <g transform="translate(322 196)">
+    <rect width="210" height="106" rx="18" fill="#1a1a1d"/>
+    <text x="18" y="28" class="chipLabel">SurfaceCharcoal</text>
+    <text x="18" y="50" class="mono">#1A1A1D</text>
+    <text x="18" y="74" class="small">surface</text>
+  </g>
+  <g transform="translate(554 196)">
+    <rect width="210" height="106" rx="18" fill="#e53935"/>
+    <text x="18" y="28" class="chipLabel">AccentVermilion</text>
+    <text x="18" y="50" class="mono">#E53935</text>
+    <text x="18" y="74" class="small">primary</text>
+  </g>
+  <g transform="translate(786 196)">
+    <rect width="210" height="106" rx="18" fill="#fbbf24"/>
+    <text x="18" y="28" class="chipLabel" fill="#1a1a1d">RatingGold</text>
+    <text x="18" y="50" class="mono" fill="#1a1a1d">#FBBF24</text>
+    <text x="18" y="74" class="small" fill="#1a1a1d">secondary</text>
+  </g>
+  <g transform="translate(1018 196)">
+    <rect width="210" height="106" rx="18" fill="#9918181e"/>
+    <text x="18" y="28" class="chipLabel">SystemGlassOver</text>
+    <text x="18" y="50" class="mono">#9918181E</text>
+    <text x="18" y="74" class="small">surfaceVariant</text>
+  </g>
+
+  <text x="90" y="372" class="title" font-size="18">Light scheme</text>
+  <g transform="translate(90 398)">
+    <rect width="210" height="106" rx="18" fill="#fdfdfd"/>
+    <text x="18" y="28" class="chipLabel" fill="#0c0c0e">CinematicPaper</text>
+    <text x="18" y="50" class="mono" fill="#0c0c0e">#FDFDFD</text>
+    <text x="18" y="74" class="small" fill="#0c0c0e">background</text>
+  </g>
+  <g transform="translate(322 398)">
+    <rect width="210" height="106" rx="18" fill="#f4f4f5"/>
+    <text x="18" y="28" class="chipLabel" fill="#0c0c0e">SurfacePearl</text>
+    <text x="18" y="50" class="mono" fill="#0c0c0e">#F4F4F5</text>
+    <text x="18" y="74" class="small" fill="#0c0c0e">surface</text>
+  </g>
+  <g transform="translate(554 398)">
+    <rect width="210" height="106" rx="18" fill="#dc2626"/>
+    <text x="18" y="28" class="chipLabel">AccentCrimson</text>
+    <text x="18" y="50" class="mono">#DC2626</text>
+    <text x="18" y="74" class="small">primary</text>
+  </g>
+  <g transform="translate(786 398)">
+    <rect width="210" height="106" rx="18" fill="#fff4c3"/>
+    <text x="18" y="28" class="chipLabel" fill="#0c0c0e">RatingGold</text>
+    <text x="18" y="50" class="mono" fill="#0c0c0e">#FBBF24</text>
+    <text x="18" y="74" class="small" fill="#0c0c0e">secondary</text>
+  </g>
+  <g transform="translate(1018 398)">
+    <rect width="210" height="106" rx="18" fill="#cde4e4e7"/>
+    <text x="18" y="28" class="chipLabel" fill="#0c0c0e">LightSystemGlassOver</text>
+    <text x="18" y="50" class="mono" fill="#0c0c0e">#CDE4E4E7</text>
+    <text x="18" y="74" class="small" fill="#0c0c0e">surfaceVariant</text>
+  </g>
+</svg>
