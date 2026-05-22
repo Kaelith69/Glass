@@ -130,9 +130,11 @@ The current app code does **not** read runtime secrets, but the repo is wired fo
 - `.env` / `.env.example` are configured for the Secrets Gradle Plugin.
 - `GEMINI_API_KEY` exists as a placeholder for future Gemini usage.
 - Release signing expects:
-  - `KEYSTORE_PATH`
+  - `SIGNING_KEY` (base64-encoded keystore contents, decoded by CI)
   - `STORE_PASSWORD`
   - `KEY_PASSWORD`
+  - `ALIAS` if you want to override the default signing alias (`upload`)
+  - `KEYSTORE_PATH` is supplied by the release workflow and points to the decoded keystore file
 
 ## How it works
 
@@ -186,8 +188,8 @@ Notable rules:
 
 ## Scripts and validation
 
-The repository does not include a Gradle wrapper.
-That means the most reliable path is Android Studio sync/run, or a local Gradle install that can resolve the Android plugin set.
+The repository includes a Gradle wrapper for CI and local command-line builds.
+That means the most reliable path is Android Studio sync/run, or `./gradlew` from the project root.
 
 I also checked the build in this environment:
 
@@ -212,4 +214,3 @@ So the docs are honest, if not glamorous.
 
 No license file is present.
 For an open-source release, **MIT** is the simplest default; **Apache-2.0** is the safer pick if you want a patent grant in the room.
-
