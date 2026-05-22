@@ -1,83 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 680" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 720" role="img" aria-labelledby="title desc">
   <title id="title">CineCommon theme system</title>
-  <desc id="desc">Dark and light color schemes derived from the Compose theme files.</desc>
+  <desc id="desc">Dark and light palettes used by the Compose theme.</desc>
   <defs>
     <style>
-      .bg { fill: #09090b; }
-      .panel { fill: #1a1a1d; stroke: rgba(255,255,255,.08); stroke-width: 1.5; }
-      .title { fill: #fafafa; font: 700 20px Inter, Segoe UI, Arial, sans-serif; }
+      .bg { fill: #0b0b0d; }
+      .panel { fill: #17171b; stroke: rgba(255,255,255,.08); stroke-width: 1.5; }
+      .title { fill: #f4f4f5; font: 700 22px Inter, Segoe UI, Arial, sans-serif; }
       .text { fill: #a1a1aa; font: 500 15px Inter, Segoe UI, Arial, sans-serif; }
-      .small { fill: #a1a1aa; font: 500 13px Inter, Segoe UI, Arial, sans-serif; }
-      .chipLabel { fill: #fafafa; font: 600 13px Inter, Segoe UI, Arial, sans-serif; }
+      .swatchTitle { fill: #f4f4f5; font: 600 13px Inter, Segoe UI, Arial, sans-serif; }
       .mono { fill: #e5e7eb; font: 600 12px SFMono-Regular, Consolas, monospace; }
+      .labelDark { fill: #f4f4f5; }
+      .labelLight { fill: #0b0b0d; }
+      .smallDark { fill: #a1a1aa; }
+      .smallLight { fill: #17171b; }
     </style>
   </defs>
-  <rect width="1600" height="680" class="bg"/>
-  <rect x="56" y="42" width="1488" height="596" rx="28" class="panel"/>
-  <text x="88" y="92" class="title">Theme system</text>
-  <text x="88" y="120" class="text">Material 3, but with a cinematic bias and a slight distrust of pastel optimism.</text>
+  <rect width="1600" height="720" class="bg"/>
+  <rect x="56" y="42" width="1488" height="636" rx="28" class="panel"/>
+  <text x="92" y="92" class="title">Theme system</text>
+  <text x="92" y="120" class="text">Material 3 with a dark cinematic palette and a clean light variant.</text>
 
-  <text x="90" y="170" class="title" font-size="18">Dark scheme</text>
-  <g transform="translate(90 196)">
-    <rect width="210" height="106" rx="18" fill="#0c0c0e"/>
-    <text x="18" y="28" class="chipLabel">CinematicBlack</text>
+  <text x="92" y="172" class="title" font-size="18">Dark scheme</text>
+  <g transform="translate(92 198)">
+    <rect width="214" height="100" rx="18" fill="#0c0c0e"/>
+    <text x="18" y="28" class="swatchTitle">Background</text>
     <text x="18" y="50" class="mono">#0C0C0E</text>
-    <text x="18" y="74" class="small">background</text>
+    <text x="18" y="74" class="smallDark">CinematicBlack</text>
   </g>
-  <g transform="translate(322 196)">
-    <rect width="210" height="106" rx="18" fill="#1a1a1d"/>
-    <text x="18" y="28" class="chipLabel">SurfaceCharcoal</text>
-    <text x="18" y="50" class="mono">#1A1A1D</text>
-    <text x="18" y="74" class="small">surface</text>
+  <g transform="translate(326 198)">
+    <rect width="214" height="100" rx="18" fill="#17171b"/>
+    <text x="18" y="28" class="swatchTitle">Surface</text>
+    <text x="18" y="50" class="mono">#17171B</text>
+    <text x="18" y="74" class="smallDark">SurfaceCharcoal</text>
   </g>
-  <g transform="translate(554 196)">
-    <rect width="210" height="106" rx="18" fill="#e53935"/>
-    <text x="18" y="28" class="chipLabel">AccentVermilion</text>
-    <text x="18" y="50" class="mono">#E53935</text>
-    <text x="18" y="74" class="small">primary</text>
+  <g transform="translate(560 198)">
+    <rect width="214" height="100" rx="18" fill="#ef4444"/>
+    <text x="18" y="28" class="swatchTitle">Primary</text>
+    <text x="18" y="50" class="mono">#EF4444</text>
+    <text x="18" y="74" class="smallDark">AccentVermilion</text>
   </g>
-  <g transform="translate(786 196)">
-    <rect width="210" height="106" rx="18" fill="#fbbf24"/>
-    <text x="18" y="28" class="chipLabel" fill="#1a1a1d">RatingGold</text>
-    <text x="18" y="50" class="mono" fill="#1a1a1d">#FBBF24</text>
-    <text x="18" y="74" class="small" fill="#1a1a1d">secondary</text>
-  </g>
-  <g transform="translate(1018 196)">
-    <rect width="210" height="106" rx="18" fill="#9918181e"/>
-    <text x="18" y="28" class="chipLabel">SystemGlassOver</text>
-    <text x="18" y="50" class="mono">#9918181E</text>
-    <text x="18" y="74" class="small">surfaceVariant</text>
+  <g transform="translate(794 198)">
+    <rect width="214" height="100" rx="18" fill="#fbbf24"/>
+    <text x="18" y="28" class="swatchTitle labelLight">Secondary</text>
+    <text x="18" y="50" class="mono labelLight">#FBBF24</text>
+    <text x="18" y="74" class="smallLight">RatingGold</text>
   </g>
 
-  <text x="90" y="372" class="title" font-size="18">Light scheme</text>
-  <g transform="translate(90 398)">
-    <rect width="210" height="106" rx="18" fill="#fdfdfd"/>
-    <text x="18" y="28" class="chipLabel" fill="#0c0c0e">CinematicPaper</text>
-    <text x="18" y="50" class="mono" fill="#0c0c0e">#FDFDFD</text>
-    <text x="18" y="74" class="small" fill="#0c0c0e">background</text>
+  <text x="92" y="368" class="title" font-size="18">Light scheme</text>
+  <g transform="translate(92 394)">
+    <rect width="214" height="100" rx="18" fill="#fdfdfd"/>
+    <text x="18" y="28" class="swatchTitle labelLight">Background</text>
+    <text x="18" y="50" class="mono labelLight">#FDFDFD</text>
+    <text x="18" y="74" class="smallLight">CinematicPaper</text>
   </g>
-  <g transform="translate(322 398)">
-    <rect width="210" height="106" rx="18" fill="#f4f4f5"/>
-    <text x="18" y="28" class="chipLabel" fill="#0c0c0e">SurfacePearl</text>
-    <text x="18" y="50" class="mono" fill="#0c0c0e">#F4F4F5</text>
-    <text x="18" y="74" class="small" fill="#0c0c0e">surface</text>
+  <g transform="translate(326 394)">
+    <rect width="214" height="100" rx="18" fill="#f4f4f5"/>
+    <text x="18" y="28" class="swatchTitle labelLight">Surface</text>
+    <text x="18" y="50" class="mono labelLight">#F4F4F5</text>
+    <text x="18" y="74" class="smallLight">SurfacePearl</text>
   </g>
-  <g transform="translate(554 398)">
-    <rect width="210" height="106" rx="18" fill="#dc2626"/>
-    <text x="18" y="28" class="chipLabel">AccentCrimson</text>
+  <g transform="translate(560 394)">
+    <rect width="214" height="100" rx="18" fill="#dc2626"/>
+    <text x="18" y="28" class="swatchTitle">Primary</text>
     <text x="18" y="50" class="mono">#DC2626</text>
-    <text x="18" y="74" class="small">primary</text>
+    <text x="18" y="74" class="smallDark">AccentCrimson</text>
   </g>
-  <g transform="translate(786 398)">
-    <rect width="210" height="106" rx="18" fill="#fff4c3"/>
-    <text x="18" y="28" class="chipLabel" fill="#0c0c0e">RatingGold</text>
-    <text x="18" y="50" class="mono" fill="#0c0c0e">#FBBF24</text>
-    <text x="18" y="74" class="small" fill="#0c0c0e">secondary</text>
-  </g>
-  <g transform="translate(1018 398)">
-    <rect width="210" height="106" rx="18" fill="#cde4e4e7"/>
-    <text x="18" y="28" class="chipLabel" fill="#0c0c0e">LightSystemGlassOver</text>
-    <text x="18" y="50" class="mono" fill="#0c0c0e">#CDE4E4E7</text>
-    <text x="18" y="74" class="small" fill="#0c0c0e">surfaceVariant</text>
+  <g transform="translate(794 394)">
+    <rect width="214" height="100" rx="18" fill="#fff4c3"/>
+    <text x="18" y="28" class="swatchTitle labelLight">Secondary</text>
+    <text x="18" y="50" class="mono labelLight">#FBBF24</text>
+    <text x="18" y="74" class="smallLight">RatingGold</text>
   </g>
 </svg>

@@ -1,98 +1,80 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 820" role="img" aria-labelledby="title desc">
   <title id="title">CineCommon folder structure diagram</title>
-  <desc id="desc">A compact tree of the repository's relevant folders and files.</desc>
+  <desc id="desc">A compact view of the main repository folders and files.</desc>
   <defs>
     <style>
-      .bg { fill: #0c0c0e; }
-      .panel { fill: #1a1a1d; stroke: rgba(255,255,255,.08); stroke-width: 1.5; }
-      .title { fill: #fafafa; font: 700 20px Inter, Segoe UI, Arial, sans-serif; }
+      .bg { fill: #0b0b0d; }
+      .panel { fill: #17171b; stroke: rgba(255,255,255,.08); stroke-width: 1.5; }
+      .title { fill: #f4f4f5; font: 700 22px Inter, Segoe UI, Arial, sans-serif; }
       .text { fill: #a1a1aa; font: 500 15px Inter, Segoe UI, Arial, sans-serif; }
       .path { fill: #e5e7eb; font: 600 15px SFMono-Regular, Consolas, monospace; }
       .muted { fill: #a1a1aa; font: 500 13px Inter, Segoe UI, Arial, sans-serif; }
-      .accent { fill: #e53935; }
+      .accent { fill: #ef4444; }
       .gold { fill: #fbbf24; }
-      .line { stroke: rgba(255,255,255,.22); stroke-width: 2; fill: none; }
+      .line { stroke: rgba(255,255,255,.20); stroke-width: 2; fill: none; }
     </style>
   </defs>
-  <rect width="1600" height="900" class="bg"/>
-  <rect x="56" y="42" width="1488" height="816" rx="28" class="panel"/>
-  <text x="88" y="92" class="title">Folder structure</text>
-  <text x="88" y="120" class="text">Only the important bits. The rest is standard Android furniture.</text>
+  <rect width="1600" height="820" class="bg"/>
+  <rect x="56" y="42" width="1488" height="736" rx="28" class="panel"/>
+  <text x="92" y="92" class="title">Folder structure</text>
+  <text x="92" y="120" class="text">Only the important parts. Everything else follows standard Android project layout.</text>
 
-  <g transform="translate(104 172)">
+  <g transform="translate(104 178)">
     <circle cx="8" cy="8" r="8" class="accent"/>
     <text x="30" y="14" class="path">/</text>
-    <text x="58" y="14" class="muted">repo root</text>
+    <text x="56" y="14" class="muted">repo root</text>
 
-    <path d="M8 28 V62 H52" class="line"/>
-    <path d="M8 28 V102 H52" class="line"/>
-    <path d="M8 28 V142 H52" class="line"/>
-    <path d="M8 28 V182 H52" class="line"/>
-    <path d="M8 28 V222 H52" class="line"/>
+    <path d="M8 28 V70 H56" class="line"/>
+    <path d="M8 28 V118 H56" class="line"/>
+    <path d="M8 28 V166 H56" class="line"/>
+    <path d="M8 28 V214 H56" class="line"/>
+    <path d="M8 28 V262 H56" class="line"/>
 
-    <text x="72" y="66" class="path">app/</text>
-    <text x="140" y="66" class="muted">Android application module</text>
-    <path d="M140 82 V122 H182" class="line"/>
-    <path d="M140 82 V162 H182" class="line"/>
-    <path d="M140 82 V202 H182" class="line"/>
-    <path d="M140 82 V242 H182" class="line"/>
+    <text x="76" y="74" class="path">app/</text>
+    <text x="136" y="74" class="muted">application module</text>
+    <path d="M136 90 V136 H176" class="line"/>
+    <path d="M136 90 V184 H176" class="line"/>
+    <path d="M136 90 V232 H176" class="line"/>
+    <path d="M136 90 V280 H176" class="line"/>
 
-    <text x="204" y="126" class="path">src/main/java/com/example/</text>
-    <text x="204" y="166" class="path">src/main/res/</text>
-    <text x="204" y="206" class="path">src/test/</text>
-    <text x="204" y="246" class="path">src/androidTest/</text>
+    <text x="198" y="140" class="path">src/main/java/com/example/</text>
+    <text x="198" y="188" class="path">src/main/res/</text>
+    <text x="198" y="236" class="path">src/test/</text>
+    <text x="198" y="284" class="path">src/androidTest/</text>
 
-    <path d="M204 116 V272 H246" class="line"/>
-    <path d="M204 156 V312 H246" class="line"/>
-    <path d="M204 196 V352 H246" class="line"/>
+    <path d="M198 128 V334 H240" class="line"/>
+    <path d="M198 128 V382 H240" class="line"/>
+    <path d="M198 128 V430 H240" class="line"/>
 
-    <text x="268" y="276" class="path">MainActivity.kt</text>
-    <text x="268" y="316" class="path">data/</text>
-    <text x="268" y="356" class="path">ui/</text>
+    <text x="262" y="338" class="path">MainActivity.kt</text>
+    <text x="262" y="386" class="path">data/</text>
+    <text x="262" y="434" class="path">ui/</text>
 
-    <path d="M268 304 V392 H310" class="line"/>
-    <path d="M268 344 V432 H310" class="line"/>
+    <path d="M262 370 V482 H304" class="line"/>
+    <path d="M262 418 V530 H304" class="line"/>
 
-    <text x="332" y="396" class="path">AppDatabase.kt</text>
-    <text x="332" y="428" class="path">AppRepository.kt</text>
-    <text x="332" y="460" class="path">Daos.kt</text>
-    <text x="332" y="492" class="path">Models.kt</text>
+    <text x="326" y="486" class="path">AppDatabase.kt</text>
+    <text x="326" y="534" class="path">AppRepository.kt</text>
+    <text x="326" y="582" class="path">Daos.kt</text>
+    <text x="326" y="630" class="path">Models.kt</text>
 
-    <path d="M268 344 V520 H310" class="line"/>
-    <path d="M268 344 V560 H310" class="line"/>
-    <path d="M268 344 V600 H310" class="line"/>
+    <path d="M262 418 V678 H304" class="line"/>
+    <path d="M262 418 V726 H304" class="line"/>
 
-    <text x="332" y="524" class="path">MainViewModel.kt</text>
-    <text x="332" y="564" class="path">components/GlassComponents.kt</text>
-    <text x="332" y="604" class="path">screens/</text>
-
-    <path d="M332 588 V640 H374" class="line"/>
-    <path d="M332 588 V680 H374" class="line"/>
-    <path d="M332 588 V720 H374" class="line"/>
-
-    <text x="396" y="644" class="path">OnboardingScreen.kt</text>
-    <text x="396" y="684" class="path">HomeScreen.kt</text>
-    <text x="396" y="724" class="path">DiscoverScreen.kt</text>
-    <text x="396" y="764" class="path">ListsHubScreen.kt</text>
-    <text x="396" y="804" class="path">MovieDetailsScreen.kt</text>
-    <text x="396" y="844" class="path">ProfileScreen.kt</text>
+    <text x="326" y="682" class="path">MainViewModel.kt</text>
+    <text x="326" y="730" class="path">components/GlassComponents.kt</text>
   </g>
 
-  <g transform="translate(950 182)">
+  <g transform="translate(1000 178)">
     <circle cx="8" cy="8" r="8" class="gold"/>
     <text x="30" y="14" class="path">support files</text>
-    <text x="30" y="46" class="muted">build, metadata, and config</text>
-    <text x="30" y="92" class="path">build.gradle.kts</text>
-    <text x="30" y="124" class="path">settings.gradle.kts</text>
-    <text x="30" y="156" class="path">gradle/libs.versions.toml</text>
-    <text x="30" y="188" class="path">gradle.properties</text>
-    <text x="30" y="220" class="path">.env.example</text>
-    <text x="30" y="252" class="path">metadata.json</text>
-    <text x="30" y="284" class="path">debug.keystore.base64</text>
-    <text x="30" y="332" class="path">README.md</text>
-    <text x="30" y="364" class="path">.gitignore</text>
+    <text x="30" y="48" class="muted">build, metadata, and config</text>
+    <text x="30" y="96" class="path">build.gradle.kts</text>
+    <text x="30" y="132" class="path">settings.gradle.kts</text>
+    <text x="30" y="168" class="path">gradle/libs.versions.toml</text>
+    <text x="30" y="204" class="path">.env.example</text>
+    <text x="30" y="240" class="path">metadata.json</text>
+    <text x="30" y="276" class="path">README.md</text>
+    <text x="30" y="312" class="path">LICENSE</text>
   </g>
-
-  <text x="92" y="852" class="muted">The structure is intentionally small: one app module, one Compose surface, one Room-backed domain model.</text>
 </svg>
-
