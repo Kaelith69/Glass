@@ -4,6 +4,15 @@
   <img src="docs/readme/banner.svg" alt="CineCommon banner" width="100%" />
 </p>
 
+<p align="center">
+  <a href="https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml">
+    <img src="https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml/badge.svg" alt="Build Status" />
+  </a>
+  <a href="https://github.com/Kaelith69/Glass/releases">
+    <img src="https://img.shields.io/github/v/release/Kaelith69/Glass" alt="Latest Release" />
+  </a>
+</p>
+
 > A local-first Android movie app for people who treat metadata like a civic duty.
 
 ## What this is
@@ -133,6 +142,61 @@ The current app code does **not** read runtime secrets, but the repo is wired fo
   - `KEYSTORE_PATH`
   - `STORE_PASSWORD`
   - `KEY_PASSWORD`
+
+### Build and Release
+
+**Automated via GitHub Actions:**
+
+- **Builds**: Every push to `main` or `develop` and all pull requests trigger a build via [`.github/workflows/android-build.yml`](.github/workflows/android-build.yml)
+  - Builds debug and test APKs
+  - Runs lint and unit tests
+  - Uploads artifacts for 5 days
+- **Releases**: Pushing a git tag matching `v*.*.*` (e.g., `v1.0.0`) triggers [`.github/workflows/android-release.yml`](.github/workflows/android-release.yml)
+  - Builds a signed release APK and bundle
+  - Creates a GitHub release with both artifacts attached
+  - Requires repository secrets: `KEYSTORE_PATH`, `STORE_PASSWORD`, `KEY_PASSWORD`
+
+**Local build:**
+
+```bash
+# Debug build
+./gradlew assembleDebug
+
+# Release build (requires signing credentials)
+./gradlew assembleRelease
+```
+
+### Configuring Release Workflow Secrets
+
+To enable automated releases with code signing, add these repository secrets in GitHub:
+
+1. Go to **Settings** → **Secrets and variables** → **Actions**
+2. Create the following secrets:
+   - `KEYSTORE_PATH`: Path to your keystore file (base64 encoded or file content)
+   - `STORE_PASSWORD`: Keystore password
+   - `KEY_PASSWORD`: Key password
+
+Once configured, pushing a tag matching `v*.*.*` (e.g., `v1.0.0`) will:
+- Automatically build a signed release APK and AAB
+- Create a GitHub Release with artifacts attached
+- Make the build available for download
+
+## Downloads
+
+**Get the latest release:**
+
+- **APK**: Download the latest debug build from [GitHub Releases](https://github.com/Kaelith69/Glass/releases)
+- **Debug builds**: Available as artifacts from [GitHub Actions](https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml)
+
+### Installation
+
+To install the APK on an Android device or emulator:
+
+```bash
+adb install path/to/app-release.apk
+```
+
+Or manually install via Android Studio by dragging the APK onto the emulator/device.
 
 ## How it works
 
