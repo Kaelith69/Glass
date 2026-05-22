@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 860" role="img" aria-labelledby="title desc">
+  <title id="title">CineCommon architecture diagram</title>
+  <desc id="desc">Single-activity Compose architecture with ViewModel, repository, and Room database.</desc>
+  <defs>
+    <style>
+      .bg { fill: #0c0c0e; }
+      .panel { fill: #1a1a1d; stroke: rgba(255,255,255,.08); stroke-width: 1.5; }
+      .card { fill: rgba(255,255,255,.04); stroke: rgba(255,255,255,.10); stroke-width: 1.25; }
+      .title { fill: #fafafa; font: 700 22px Inter, Segoe UI, Arial, sans-serif; }
+      .text { fill: #a1a1aa; font: 500 16px Inter, Segoe UI, Arial, sans-serif; }
+      .small { fill: #a1a1aa; font: 500 14px Inter, Segoe UI, Arial, sans-serif; }
+      .accent { fill: #e53935; }
+      .gold { fill: #fbbf24; }
+      .line { stroke: #f4f4f5; stroke-opacity: .28; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .dashed { stroke-dasharray: 10 10; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f4f4f5" opacity=".9"/>
+    </marker>
+  </defs>
+  <rect width="1600" height="860" class="bg"/>
+
+  <rect x="60" y="48" width="1480" height="764" rx="28" class="panel"/>
+  <text x="92" y="96" class="title">Architecture</text>
+  <text x="92" y="124" class="text">One activity, one ViewModel, one repository, seven Room entities. Simple enough to understand, stubborn enough to be useful.</text>
+
+  <rect x="92" y="170" width="280" height="170" rx="22" class="card"/>
+  <circle cx="140" cy="222" r="18" class="accent"/>
+  <text x="172" y="218" class="title" font-size="20">MainActivity</text>
+  <text x="172" y="248" class="text">Hosts the Compose tree</text>
+  <text x="120" y="292" class="small">• enableEdgeToEdge()</text>
+  <text x="120" y="318" class="small">• MyApplicationTheme</text>
+
+  <rect x="430" y="170" width="330" height="170" rx="22" class="card"/>
+  <circle cx="478" cy="222" r="18" class="gold"/>
+  <text x="510" y="218" class="title" font-size="20">CineCommonApp</text>
+  <text x="510" y="248" class="text">Sealed screen routing + sheets</text>
+  <text x="460" y="292" class="small">• Onboarding / Home / Discover</text>
+  <text x="460" y="318" class="small">• Lists / Profile / MovieDetails</text>
+
+  <rect x="820" y="170" width="320" height="170" rx="22" class="card"/>
+  <circle cx="868" cy="222" r="18" class="accent"/>
+  <text x="900" y="218" class="title" font-size="20">MainViewModel</text>
+  <text x="900" y="248" class="text">StateFlow + mutation methods</text>
+  <text x="850" y="292" class="small">• currentUsername / selectedMovie</text>
+  <text x="850" y="318" class="small">• search, review, list, badge, trust</text>
+
+  <rect x="1190" y="170" width="320" height="170" rx="22" class="card"/>
+  <circle cx="1238" cy="222" r="18" class="gold"/>
+  <text x="1270" y="218" class="title" font-size="20">AppRepository</text>
+  <text x="1270" y="248" class="text">Business rules over Room</text>
+  <text x="1220" y="292" class="small">• seeding / moderation / rollback</text>
+  <text x="1220" y="318" class="small">• notifications + trust score updates</text>
+
+  <path d="M372 255 H430" class="line"/>
+  <path d="M760 255 H820" class="line"/>
+  <path d="M1140 255 H1190" class="line"/>
+
+  <rect x="92" y="408" width="1418" height="302" rx="22" class="card"/>
+  <text x="122" y="454" class="title" font-size="20">Room database: cinecommon_database</text>
+  <text x="122" y="484" class="text">Version 2 • destructive migration enabled • local persistence only</text>
+
+  <g transform="translate(120 520)">
+    <rect width="184" height="110" rx="18" class="panel"/>
+    <text x="20" y="34" class="title" font-size="18">Users</text>
+    <text x="20" y="64" class="small">trustScore, badges</text>
+    <text x="20" y="88" class="small">bio, avatar, taste DNA</text>
+  </g>
+  <g transform="translate(330 520)">
+    <rect width="184" height="110" rx="18" class="panel"/>
+    <text x="20" y="34" class="title" font-size="18">Movies</text>
+    <text x="20" y="64" class="small">metadata, trivia, tags</text>
+    <text x="20" y="88" class="small">contributors, quality</text>
+  </g>
+  <g transform="translate(540 520)">
+    <rect width="184" height="110" rx="18" class="panel"/>
+    <text x="20" y="34" class="title" font-size="18">Reviews</text>
+    <text x="20" y="64" class="small">one per user per movie</text>
+    <text x="20" y="88" class="small">likes, spoiler flag, time</text>
+  </g>
+  <g transform="translate(750 520)">
+    <rect width="184" height="110" rx="18" class="panel"/>
+    <text x="20" y="34" class="title" font-size="18">Lists</text>
+    <text x="20" y="64" class="small">watchlist, wishlist, custom</text>
+    <text x="20" y="88" class="small">pin counts, movie IDs</text>
+  </g>
+  <g transform="translate(960 520)">
+    <rect width="184" height="110" rx="18" class="panel"/>
+    <text x="20" y="34" class="title" font-size="18">Badges</text>
+    <text x="20" y="64" class="small">unlock state + pinning</text>
+    <text x="20" y="88" class="small">categories + tiers</text>
+  </g>
+  <g transform="translate(1170 520)">
+    <rect width="184" height="110" rx="18" class="panel"/>
+    <text x="20" y="34" class="title" font-size="18">History</text>
+    <text x="20" y="64" class="small">approved / pending</text>
+    <text x="20" y="88" class="small">rollback snapshots</text>
+  </g>
+
+  <path d="M1550 635 h-10" opacity="0"/>
+</svg>
+
