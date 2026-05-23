@@ -1,298 +1,250 @@
 # CineCommon
 
-<p align="center">
-  <img src="docs/readme/banner.svg" alt="CineCommon banner" width="100%" />
-</p>
+![CineCommon](docs/assets/banner.svg)
 
-<p align="center">
-  <a href="https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml">
-    <img src="https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml/badge.svg" alt="Build Status" />
-  </a>
-  <a href="https://github.com/Kaelith69/Glass/releases">
-    <img src="https://img.shields.io/github/v/release/Kaelith69/Glass" alt="Latest Release" />
-  </a>
-  <a href="https://github.com/Kaelith69/Glass/releases/latest/download/app-release.apk">
-    <img src="https://img.shields.io/badge/Download-Latest%20APK-2ea44f" alt="Download Latest APK" />
-  </a>
-  <a href="https://github.com/Kaelith69/Glass/releases/latest/download/app-release.apk">
-    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FKaelith69%2FGlass%2Fmain%2Fdocs%2Freadme%2Fapk-size-badge.json" alt="Latest APK Size" />
-  </a>
-</p>
+[![Latest release](https://img.shields.io/github/v/release/Kaelith69/Glass)](https://github.com/Kaelith69/Glass/releases/latest)
+[![License not specified](https://img.shields.io/badge/license-not%20specified-lightgrey)](https://github.com/Kaelith69/Glass)
+[![Build status](https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml/badge.svg)](https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml)
+[![Kotlin](https://img.shields.io/badge/language-Kotlin-7f52ff?logo=kotlin&logoColor=white)](https://kotlinlang.org/)
+[![Coverage not published](https://img.shields.io/badge/coverage-not%20published-lightgrey)](https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml)
 
-> A local-first Android movie app for people who treat metadata like a civic duty.
+CineCommon is a local-first Android movie app that keeps the metadata nerding on-device and the drama where it belongs: in the UI.
 
-## What this is
+## What even is this?
 
-CineCommon is a single-activity Jetpack Compose app backed by Room, StateFlow, and a small amount of trust-based bureaucracy.
-It lets users claim a profile, browse seeded films, search and filter the catalog, submit reviews, propose metadata edits, manage watchlists, and curate community lists.
+CineCommon is a single-activity Jetpack Compose app backed by Room, `StateFlow`, and a deliberately opinionated data model.
+The GitHub repo is called `Glass`, but the app itself ships as `CineCommon`.
 
-The app is deliberately local-first: the current code path stores its state in Room and does not make runtime network calls.
-Some dependencies in the build file are future-facing rather than active. Ambition is cheap; wiring is work.
+You get onboarding, home, discover, lists, profile, movie details, reviews, badges, notifications, and community edits without depending on a live runtime backend.
 
-## Why it exists
+## Why does this exist?
 
-Because movie apps usually stop at “here is a poster.”
-CineCommon goes further:
+Because movie apps usually stop at posters and star ratings.
 
-- identity is a one-time username claim
-- reviews are capped and spoiler-aware
-- edits can be auto-approved or queued for moderation based on trust
-- badges unlock as users contribute
-- lists, notifications, and rollback history all live in the same shared universe
+CineCommon goes a bit further:
 
-## Core features
+- claim a username once and keep it
+- browse and search a local movie catalog
+- leave spoiler-aware reviews
+- propose metadata edits with trust-based moderation
+- build watchlists, wishlists, and custom lists
+- unlock badges and keep a small paper trail of what changed
 
-- **Onboarding** — unique username claim, avatar selection, bio, and taste tags
-- **Home** — taste snapshot, curated picks, badge highlights, and notification access
-- **Discover** — search, genre filters, interactive flip cards, and movie-card proposals
-- **Movie details** — deep metadata, review logging, watchlist/wishlist toggles, and rollback history
-- **Lists Hub** — personal system lists plus community-built catalogs
-- **Profile DNA** — trust score, pinned badges, moderation queue, and accessibility prefs
-- **Community data model** — review likes, badge unlocks, edit history, and notifications
+## Features
+
+- one-time profile onboarding with avatar, bio, and taste tags
+- Home, Discover, Lists Hub, Profile, and Movie Details screens
+- local search across seeded movies and alternate titles
+- watchlist and wishlist toggles per user
+- custom list creation and pinning
+- reviews with upvotes and spoiler flags
+- trust-based edit approval with rollback history
+- badges, notifications, and motion/accessibility preferences
 
 ## Architecture
 
-<p align="center">
-  <img src="docs/readme/architecture.svg" alt="CineCommon architecture diagram" width="100%" />
-</p>
+![CineCommon architecture](docs/assets/architecture.svg)
 
-### System map
+The app is split into three practical layers: Compose UI, state/rules, and Room persistence.
+`MainActivity` hosts the app, `MainViewModel` owns screen state, and `AppRepository` talks to the database.
 
-- `MainActivity` hosts one Compose tree.
-- `CineCommonApp` controls screen switching with a sealed `Screen` state.
-- `MainViewModel` owns all app state and mutation entry points.
-- `AppRepository` wraps Room and the business rules.
-- `AppDatabase` persists users, movies, reviews, lists, badges, notifications, and edit history.
+## How it works
 
-## Data flow
+![CineCommon onboarding flow](docs/assets/flow.svg)
 
-<p align="center">
-  <img src="docs/readme/data-flow.svg" alt="CineCommon data flow diagram" width="100%" />
-</p>
-
-### What moves where
-
-- onboarding claims a username and seeds the user’s watchlist, wishlist, and starter badge
-- `StateFlow` streams feed each screen from the repository
-- search and create/edit actions flow through the ViewModel
-- repository methods write to Room and emit notifications, trust-score changes, and badge unlocks
-- detail screens read the updated flows back out, because the app politely believes in synchronization
-
-## Folder structure
-
-<p align="center">
-  <img src="docs/readme/folder-structure.svg" alt="CineCommon folder structure" width="100%" />
-</p>
-
-## Theme system
-
-<p align="center">
-  <img src="docs/readme/theme-system.svg" alt="CineCommon theme palette" width="100%" />
-</p>
-
-The visual language is cinematic, dark by default, and mildly dramatic in a way Compose apps rarely need but often deserve.
+The primary flow is simple: open the app, claim a profile, validate the username, then seed the user’s local setup and land on Home.
+If validation fails, onboarding stays in place and shows an error instead of pretending everything is fine. Refreshing honesty, that.
 
 ## Tech stack
 
-**Runtime**
-- Kotlin
-- Jetpack Compose
-- Material 3
-- Navigation Compose
-- Room
-- Kotlin Coroutines / Flow / StateFlow
+| Technology | Role | Why we picked it |
+| --- | --- | --- |
+| Kotlin | App language | Matches the Android toolchain and the rest of the codebase |
+| Jetpack Compose | UI | Single-activity reactive UI with less ceremony |
+| Material 3 | Components and theme | Gives the app its current cinematic look |
+| Navigation Compose | Screen routing | The app uses sealed screen states instead of fragments |
+| Room | Local persistence | Stores users, movies, reviews, lists, badges, notifications, and edit history |
+| `StateFlow` + Coroutines | State and async work | Keeps UI updates reactive and repository calls structured |
+| KSP | Code generation | Used for Room and Moshi codegen |
+| Gradle 9.3.1 | Build orchestration | Matches the pinned CI toolchain |
+| Android Gradle Plugin 9.1.1 | Android builds | Current Android build plugin in `gradle/libs.versions.toml` |
+| GitHub Actions | CI and release | Builds debug APKs, release APKs, and the APK size badge payload |
+| JUnit 4, Robolectric, AndroidJUnit4, Espresso | Testing | Covers host-side, Robolectric, and instrumented test paths |
+| Secrets Gradle Plugin | Environment loading | Reads `.env` and `.env.example` for secret-style config |
 
-**Build**
-- Android Gradle Plugin 9.1.1
-- Kotlin 2.2.10
-- KSP
-- Version catalog (`gradle/libs.versions.toml`)
-
-**Testing**
-- JUnit 4
-- Robolectric
-- Compose UI test
-- Roborazzi
-
-**Declared but currently idle**
-- Retrofit
-- OkHttp
-- Moshi
-- Coil
-- Firebase AI
-- CameraX
-- Datastore
-
-## Setup
+## Getting started
 
 ### Prerequisites
 
 - Android Studio
-- An Android SDK with API 36 (`compileSdk 36` / `targetSdk 36`)
-- Gradle `9.3.1+` if you plan to build outside Android Studio (this repo does not commit `gradlew`)
-
-### Local run
-
-1. Open the repository in Android Studio.
-2. Let Android Studio sync the Gradle project.
-3. If you build from the command line, make sure your local toolchain can resolve AGP 9.1.1.
-4. Launch the app on an emulator or device.
-
-### Environment variables
-
-The current app code does **not** read runtime secrets, but the repo is wired for them:
-
-- `.env` / `.env.example` are configured for the Secrets Gradle Plugin.
-- `GEMINI_API_KEY` exists as a placeholder for future Gemini usage.
-- Optional release signing uses:
-  - `KEYSTORE_PATH`
-  - `STORE_PASSWORD`
-  - `KEY_PASSWORD`
-
-### Build and Release
-
-**Automated via GitHub Actions:**
-
-- **Builds**: Every push to `main` or `develop` and all pull requests trigger a build via [`.github/workflows/android-build.yml`](.github/workflows/android-build.yml)
-  - Builds debug and test APKs
-  - Runs lint and unit tests
-  - Uses pinned Gradle `9.3.1` and Java `17` in CI
-  - Uploads artifacts for 5 days
-- **Releases**: Pushing a git tag matching `v*.*.*` (e.g., `v1.0.0`) triggers [`.github/workflows/android-release.yml`](.github/workflows/android-release.yml)
-  - Builds release APK from `:app`
-  - Publishes a GitHub Release and uploads the APK asset
-  - Always uploads an APK asset named `app-release.apk` for stable linking
-  - Uses signing only when `KEYSTORE_PATH`, `STORE_PASSWORD`, and `KEY_PASSWORD` are set in the runner environment; otherwise publishes unsigned release artifacts
-
-**Local build:**
-
-```bash
-# Debug build
-gradle :app:assembleDebug
-
-# Release build (requires signing credentials)
-gradle :app:assembleRelease
-```
-
-### Optional Signing Configuration
-
-To enable signed release artifacts in CI, provide signing values in the workflow runner environment:
-
-1. Go to **Settings** → **Secrets and variables** → **Actions**
-2. Create the following secrets:
-
-- `KEYSTORE_PATH`: Absolute path on the runner to a keystore file
-- `STORE_PASSWORD`: Keystore password
-- `KEY_PASSWORD`: Key password
-
-Once configured, pushing a tag matching `v*.*.*` (e.g., `v1.0.0`) will:
-
-- Automatically build a signed release APK
-- Create a GitHub Release with the APK attached
-- Make the build available for download
-
-### APK build troubleshooting
-
-If an APK is not generated in GitHub Actions, check these first:
-
-- Ensure the release was triggered from a tag like `v1.0.0` (branch pushes do not run the release workflow).
-- Confirm the release workflow run used the latest workflow revision (older runs may not have pinned Gradle).
-- Verify the `Build release APK` step succeeded before `Prepare release assets`.
-- For signed builds, verify `KEYSTORE_PATH`, `STORE_PASSWORD`, and `KEY_PASSWORD` are correctly configured.
-
-## Downloads
-
-**Get the latest release:**
-
-- **APK (direct latest link)**: [Download app-release.apk](https://github.com/Kaelith69/Glass/releases/latest/download/app-release.apk)
-- **All release assets**: [GitHub Releases](https://github.com/Kaelith69/Glass/releases)
-- **Debug builds**: Available as artifacts from [GitHub Actions](https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml)
+- Android SDK 36
+- Gradle 9.3.1 or newer if you build from the command line
+- A JDK 17 install for local builds and CI parity
 
 ### Installation
 
-To install the APK on an Android device or emulator:
-
 ```bash
-adb install path/to/app-release.apk
+git clone https://github.com/Kaelith69/Glass.git
+cd Glass
 ```
 
-Or manually install via Android Studio by dragging the APK onto the emulator/device.
+Open the project in Android Studio and let it sync.
+If you prefer the terminal, make sure `gradle` is on your `PATH`.
 
-## How it works
+### Configuration
 
-### State management
+| Variable | Required | Where it appears | Purpose |
+| --- | --- | --- | --- |
+| `GEMINI_API_KEY` | No | `.env.example` | Placeholder for future Gemini API usage |
+| `KEYSTORE_PATH` | No | `app/build.gradle.kts`, GitHub Actions | Optional release signing keystore path |
+| `STORE_PASSWORD` | No | `app/build.gradle.kts`, GitHub Actions | Optional release keystore password |
+| `KEY_PASSWORD` | No | `app/build.gradle.kts`, GitHub Actions | Optional release key password |
 
-`MainViewModel` is the center of gravity.
-It holds:
+If the signing variables are missing, the release pipeline still produces an APK artifact; it just skips signing.
 
-- current username
-- selected movie
-- focused public profile
-- search query and results
-- watchlist / wishlist state maps
-- notifications
-- pending edits
-- badge and list streams
-- accessibility and preference toggles
+### Running locally
 
-Most screen data is exposed as `StateFlow`, then collected in Compose.
-That keeps the UI reactive without pretending we need a more complicated story.
+```bash
+gradle :app:assembleDebug
+gradle :app:test
+gradle :app:lint
+```
 
-### Database
+```bash
+gradle :app:assembleRelease
+```
 
-Room database: `cinecommon_database`
+The release command is only useful if your signing variables are set up.
 
-Entities:
+## Usage
 
-- `UserEntity`
-- `MovieEntity`
-- `ReviewEntity`
-- `MovieListEntity`
-- `BadgeEntity`
-- `NotificationEntity`
-- `MovieEditHistoryEntity`
+1. Claim a unique username during onboarding and land on Home.
+2. Search the catalog in Discover and open a movie’s details page.
+3. Submit a spoiler-aware review and upvote other reviews.
+4. Add movies to Watchlist or Wishlist, then group them into custom lists.
+5. Propose metadata edits and let trust score decide whether they auto-approve or go to moderation.
 
-Notable rules:
+## Use cases
 
-- usernames are unique and filtered against reserved terms
-- reviews are capped at 2,000 characters
-- badges can be pinned up to 6 per profile
-- trust scores range from 0 to 100
-- edits are auto-approved at trust score 70+
-- `fallbackToDestructiveMigration(true)` is enabled, so schema changes reset local data
+- personal movie tracker with offline-friendly state
+- community-curated metadata playground
+- Compose + Room architecture demo
+- review and list manager for testers or prototype users
 
-### Seeding and moderation
+## Project structure
 
-- Five films are pre-seeded on first launch if they are not already present.
-- Review activity updates user stats and taste DNA.
-- New edits can be queued for review or applied instantly depending on trust.
-- Rollbacks require senior-editor trust.
+```text
+.
+├── app/                          # Android application module
+│   └── src/
+│       ├── main/java/com/example # Main app code
+│       │   ├── MainActivity.kt   # Entry activity and Compose host
+│       │   ├── data/             # Room database, DAOs, entities, repository
+│       │   └── ui/               # ViewModel, screens, components, theme
+│       ├── main/res/             # Android resources and launcher assets
+│       ├── test/                 # Host-side unit and Robolectric tests
+│       └── androidTest/          # Instrumented tests
+├── docs/assets/                  # README SVGs used by this rewrite
+├── docs/readme/                  # Legacy docs assets and badge payloads
+├── .github/workflows/            # Build, release, and badge automation
+├── gradle/libs.versions.toml     # Version catalog for dependencies and plugins
+├── build.gradle.kts              # Root plugin declarations
+├── settings.gradle.kts           # Repository and module settings
+└── metadata.json                 # Project metadata used by tooling
+```
 
-## Scripts and validation
+## API reference
 
-The repository does not include a Gradle wrapper.
-That means the most reliable path is Android Studio sync/run, or a local Gradle install that can resolve the Android plugin set.
+### `com.example.MainActivity`
 
-I also checked the build in this environment:
+- `Screen` — sealed navigation state with `Onboarding`, `Home`, `Discover`, `ListsHub`, `Profile`, and `MovieDetails(movieId)`
+- `CineCommonApp(viewModel)` — top-level Compose host that switches screens and opens notifications
 
-- `gradle test` currently fails during plugin resolution for `com.android.application` version `9.1.1`
+### `com.example.ui.MainViewModel`
 
-So the docs are honest, if not glamorous.
+State streams:
 
-## Security and privacy
+- `currentUsername`
+- `currentUser`
+- `allMovies`
+- `selectedMovie`
+- `selectedMovieReviews`
+- `selectedMovieEditHistory`
+- `searchQuery`
+- `searchResults`
+- `allBadges`
+- `allLists`
+- `userMovieLists`
+- `notifications`
+- `pendingEdits`
+- `allEditHistory`
+- `watchlistStates`
+- `wishlistStates`
 
-- No runtime permissions are requested in the manifest.
-- No current app code sends data off-device.
-- Sign-in is profile-based, not account-based.
-- Release signing uses environment variables rather than hard-coded secrets.
+Actions:
 
-## Known repo notes
+- `performSearch(query)`
+- `selectMovie(id)`
+- `selectPublicProfile(username)`
+- `claimProfileOnboarding(usernameStr, emailStr, avatarEmoji, avatarColor, bio, selectedTags)`
+- `signOut()`
+- `submitMovieReview(movieId, rating, reviewText, isSpoiler)`
+- `upvoteReview(movieId, author)`
+- `contributeMovieUpdate(movieId, plot, cast, altTitles, director, trivia, tags, posterUrl, summaryOfChanges)`
+- `approveEdit(historyId)`
+- `rejectEdit(historyId, reason)`
+- `rollbackToEditHistory(movieId, historyItem)`
+- `createMovieCard(title, releaseYear, director, plot, genres, cast, altTitles, poster)`
+- `toggleWatchlist(movieId)`
+- `toggleWishlist(movieId)`
+- `refreshWatchWishStates(movieId)`
+- `createCustomMovieList(name, description, movieIdsStr)`
+- `togglePinCustomList(listId)`
+- `toggleBadgePin(badgeId)`
 
-- The root project name is still `My Application`.
-- The README now reflects the actual app instead of the AI Studio starter boilerplate.
-- The build declares several future-facing libraries that are not yet wired into the app path.
+### `com.example.data`
+
+- `AppRepository` — wraps Room, applies trust rules, and exposes flows
+- `AppDatabase` — Room database with version 2
+- `Daos.kt` — `MovieDao`, `UserDao`, `ReviewDao`, `MovieListDao`, `BadgeDao`, `NotificationDao`, `EditHistoryDao`
+- `Models.kt` — `UserEntity`, `MovieEntity`, `ReviewEntity`, `MovieListEntity`, `BadgeEntity`, `NotificationEntity`, `MovieEditHistoryEntity`
+
+There are no REST routes or CLI commands in the current app path; the public surface is Kotlin/Compose plus Room-backed state.
+
+## Development
+
+### Running tests
+
+```bash
+gradle :app:test
+gradle :app:lint
+```
+
+For a quick build sanity check:
+
+```bash
+gradle :app:assembleDebug
+```
+
+### Contributing
+
+- keep app code under `app/src/main/java/com/example`
+- keep README diagrams in `docs/assets`
+- keep workflows in `.github/workflows`
+- run `gradle :app:test` and `gradle :app:lint` before opening a PR
+
+## Roadmap
+
+- [ ] Add published coverage reporting
+- [ ] Replace example tests with feature-level tests
+- [ ] Expand release notes automation
+- [ ] Keep APK publishing wired to GitHub Releases
+- [ ] Continue polishing onboarding and moderation flows
 
 ## License
 
-No license file is present.
-For an open-source release, **MIT** is the simplest default; **Apache-2.0** is the safer pick if you want a patent grant in the room.
+No LICENSE file is present in the repository right now.
+
+---
+
+Built by [Kaelith69](https://github.com/Kaelith69).

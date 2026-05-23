@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" width="100%" role="img" aria-label="CineCommon onboarding flow">
+  <title>CineCommon onboarding flow</title>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  <rect width="900" height="420" fill="#0d1117"/>
+  <text x="450" y="34" text-anchor="middle" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="24" font-weight="700">Onboarding flow</text>
+  <text x="450" y="56" text-anchor="middle" fill="#8b949e" font-family="system-ui, -apple-system, monospace" font-size="13">Claim a profile, seed local state, then land on Home</text>
+
+  <rect x="38" y="150" width="150" height="64" rx="10" fill="#143d35" stroke="#2dd4bf"/>
+  <text x="113" y="177" text-anchor="middle" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">Open app</text>
+  <text x="113" y="195" text-anchor="middle" fill="#d1fae5" font-family="system-ui, -apple-system, monospace" font-size="12">Start on onboarding</text>
+
+  <rect x="222" y="150" width="160" height="64" rx="10" fill="#143d35" stroke="#2dd4bf"/>
+  <text x="302" y="177" text-anchor="middle" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">Enter username</text>
+  <text x="302" y="195" text-anchor="middle" fill="#d1fae5" font-family="system-ui, -apple-system, monospace" font-size="12">Plus avatar and bio</text>
+
+  <rect x="412" y="146" width="112" height="112" rx="12" fill="#5b3a00" stroke="#f59e0b" transform="rotate(45 468 202)"/>
+  <text x="468" y="194" text-anchor="middle" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">Valid and</text>
+  <text x="468" y="212" text-anchor="middle" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">unique?</text>
+
+  <rect x="578" y="150" width="154" height="64" rx="10" fill="#143d35" stroke="#2dd4bf"/>
+  <text x="655" y="177" text-anchor="middle" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">Save profile</text>
+  <text x="655" y="195" text-anchor="middle" fill="#d1fae5" font-family="system-ui, -apple-system, monospace" font-size="12">Seed lists and badge</text>
+
+  <rect x="760" y="150" width="104" height="64" rx="10" fill="#143d35" stroke="#2dd4bf"/>
+  <text x="812" y="177" text-anchor="middle" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">Go Home</text>
+  <text x="812" y="195" text-anchor="middle" fill="#d1fae5" font-family="system-ui, -apple-system, monospace" font-size="12">Browse movies</text>
+
+  <rect x="388" y="300" width="160" height="58" rx="10" fill="#3a1717" stroke="#f85149"/>
+  <text x="468" y="327" text-anchor="middle" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">Show error</text>
+  <text x="468" y="345" text-anchor="middle" fill="#fecaca" font-family="system-ui, -apple-system, monospace" font-size="12">Stay on onboarding</text>
+
+  <line x1="188" y1="182" x2="222" y2="182" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="382" y1="182" x2="412" y2="182" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="524" y1="182" x2="578" y2="182" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="732" y1="182" x2="760" y2="182" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="468" y1="258" x2="468" y2="300" stroke="#f85149" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="468" y1="358" x2="302" y2="358" stroke="#f85149" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="302" y1="358" x2="302" y2="214" stroke="#f85149" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <text x="284" y="145" text-anchor="middle" fill="#2dd4bf" font-family="system-ui, -apple-system, monospace" font-size="12">yes</text>
+  <text x="468" y="286" text-anchor="middle" fill="#f85149" font-family="system-ui, -apple-system, monospace" font-size="12">no</text>
+  <text x="352" y="376" text-anchor="middle" fill="#f85149" font-family="system-ui, -apple-system, monospace" font-size="12">retry</text>
+</svg>

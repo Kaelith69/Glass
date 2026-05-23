@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="100%" role="img" aria-label="CineCommon architecture diagram">
+  <title>CineCommon architecture</title>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  <rect width="900" height="500" fill="#0d1117"/>
+
+  <rect x="22" y="22" width="266" height="300" rx="16" fill="#0f172a" stroke="#58a6ff" stroke-dasharray="8 6"/>
+  <text x="40" y="48" fill="#58a6ff" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">Compose UI</text>
+
+  <rect x="316" y="22" width="252" height="300" rx="16" fill="#111827" stroke="#a371f7" stroke-dasharray="8 6"/>
+  <text x="334" y="48" fill="#c084fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">State and rules</text>
+
+  <rect x="596" y="22" width="280" height="300" rx="16" fill="#0f1f18" stroke="#3fb950" stroke-dasharray="8 6"/>
+  <text x="614" y="48" fill="#3fb950" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">Room data</text>
+
+  <rect x="44" y="74" width="210" height="56" rx="8" fill="#172554" stroke="#58a6ff"/>
+  <text x="60" y="98" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">MainActivity</text>
+  <text x="60" y="116" fill="#c9d1d9" font-family="system-ui, -apple-system, monospace" font-size="13">Hosts the Compose tree</text>
+
+  <rect x="44" y="148" width="210" height="56" rx="8" fill="#172554" stroke="#58a6ff"/>
+  <text x="60" y="172" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">CineCommonApp</text>
+  <text x="60" y="190" fill="#c9d1d9" font-family="system-ui, -apple-system, monospace" font-size="13">Routes screens and sheets</text>
+
+  <rect x="44" y="222" width="210" height="64" rx="8" fill="#172554" stroke="#58a6ff"/>
+  <text x="60" y="246" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">Screens and components</text>
+  <text x="60" y="264" fill="#c9d1d9" font-family="system-ui, -apple-system, monospace" font-size="13">Home, Discover, Lists, Profile</text>
+  <text x="60" y="282" fill="#c9d1d9" font-family="system-ui, -apple-system, monospace" font-size="13">Shared Glass UI primitives</text>
+
+  <rect x="340" y="104" width="198" height="64" rx="8" fill="#24123d" stroke="#c084fc"/>
+  <text x="356" y="128" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">MainViewModel</text>
+  <text x="356" y="146" fill="#d4d4d8" font-family="system-ui, -apple-system, monospace" font-size="13">Owns state and actions</text>
+
+  <rect x="340" y="198" width="198" height="72" rx="8" fill="#24123d" stroke="#c084fc"/>
+  <text x="356" y="222" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">AppRepository</text>
+  <text x="356" y="240" fill="#d4d4d8" font-family="system-ui, -apple-system, monospace" font-size="13">Applies trust rules and writes data</text>
+  <text x="356" y="258" fill="#d4d4d8" font-family="system-ui, -apple-system, monospace" font-size="13">Backed by Flow streams</text>
+
+  <rect x="620" y="86" width="232" height="58" rx="8" fill="#143524" stroke="#3fb950"/>
+  <text x="636" y="110" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">AppDatabase</text>
+  <text x="636" y="128" fill="#d1fae5" font-family="system-ui, -apple-system, monospace" font-size="13">Room database, version 2</text>
+
+  <rect x="620" y="160" width="232" height="64" rx="8" fill="#143524" stroke="#3fb950"/>
+  <text x="636" y="184" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">DAOs</text>
+  <text x="636" y="202" fill="#d1fae5" font-family="system-ui, -apple-system, monospace" font-size="13">Movies, users, reviews, lists</text>
+  <text x="636" y="220" fill="#d1fae5" font-family="system-ui, -apple-system, monospace" font-size="13">Badges, notifications, history</text>
+
+  <rect x="620" y="244" width="232" height="64" rx="8" fill="#143524" stroke="#3fb950"/>
+  <text x="636" y="268" fill="#f0f6fc" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">Entities</text>
+  <text x="636" y="286" fill="#d1fae5" font-family="system-ui, -apple-system, monospace" font-size="13">Users, movies, reviews, lists</text>
+  <text x="636" y="304" fill="#d1fae5" font-family="system-ui, -apple-system, monospace" font-size="13">Badges, notifications, history</text>
+
+  <line x1="254" y1="102" x2="340" y2="132" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="270" y="92" fill="#8b949e" font-family="system-ui, -apple-system, monospace" font-size="13">Compose</text>
+
+  <line x1="254" y1="176" x2="340" y2="176" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="266" y="166" fill="#8b949e" font-family="system-ui, -apple-system, monospace" font-size="13">StateFlow</text>
+
+  <line x1="439" y1="168" x2="439" y2="198" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="451" y="186" fill="#8b949e" font-family="system-ui, -apple-system, monospace" font-size="13">rules</text>
+
+  <line x1="538" y1="234" x2="620" y2="115" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="548" y="164" fill="#8b949e" font-family="system-ui, -apple-system, monospace" font-size="13">Room</text>
+
+  <line x1="736" y1="218" x2="736" y2="244" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="748" y="234" fill="#8b949e" font-family="system-ui, -apple-system, monospace" font-size="13">SQL</text>
+
+  <line x1="620" y1="276" x2="538" y2="248" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="552" y="282" fill="#8b949e" font-family="system-ui, -apple-system, monospace" font-size="13">entities</text>
+
+  <rect x="44" y="350" width="812" height="96" rx="16" fill="#111827" stroke="#30363d" stroke-dasharray="8 6"/>
+  <text x="62" y="378" fill="#8b949e" font-family="system-ui, -apple-system, monospace" font-size="14" font-weight="700">Delivery</text>
+  <rect x="64" y="394" width="178" height="30" rx="8" fill="#161b22" stroke="#30363d"/>
+  <text x="153" y="414" text-anchor="middle" fill="#c9d1d9" font-family="system-ui, -apple-system, monospace" font-size="13">GitHub Actions build</text>
+  <rect x="254" y="394" width="176" height="30" rx="8" fill="#161b22" stroke="#30363d"/>
+  <text x="342" y="414" text-anchor="middle" fill="#c9d1d9" font-family="system-ui, -apple-system, monospace" font-size="13">debug APK artifact</text>
+  <rect x="442" y="394" width="186" height="30" rx="8" fill="#161b22" stroke="#30363d"/>
+  <text x="535" y="414" text-anchor="middle" fill="#c9d1d9" font-family="system-ui, -apple-system, monospace" font-size="13">release APK on tags</text>
+  <rect x="640" y="394" width="188" height="30" rx="8" fill="#161b22" stroke="#30363d"/>
+  <text x="734" y="414" text-anchor="middle" fill="#c9d1d9" font-family="system-ui, -apple-system, monospace" font-size="13">APK size badge JSON</text>
+</svg>
