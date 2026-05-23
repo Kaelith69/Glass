@@ -7,7 +7,7 @@
 [![Build status](https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml/badge.svg)](https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml)
 [![Kotlin](https://img.shields.io/badge/language-Kotlin-7f52ff?logo=kotlin&logoColor=white)](https://kotlinlang.org/)
 [![Coverage not published](https://img.shields.io/badge/coverage-not%20published-lightgrey)](https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml)
-[![Download latest APK](https://img.shields.io/badge/download-latest%20APK-2ea44f)](https://github.com/Kaelith69/Glass/releases/latest/download/app-release.apk)
+[![Download latest APK](https://img.shields.io/badge/download-latest%20APK-2ea44f)](https://github.com/Kaelith69/Glass/releases/download/v1.0.0/app-release.apk)
 
 CineCommon is a local-first Android movie app that keeps the metadata nerding on-device and the drama where it belongs: in the UI.
 
@@ -103,7 +103,7 @@ If you prefer the terminal, make sure `gradle` is on your `PATH`.
 
 If the signing variables are missing, the release pipeline still produces an APK artifact; it just skips signing.
 
-Latest APK download: [app-release.apk](https://github.com/Kaelith69/Glass/releases/latest/download/app-release.apk)
+Latest APK download: [app-release.apk](https://github.com/Kaelith69/Glass/releases/download/v1.0.0/app-release.apk)
 
 ### Running locally
 
