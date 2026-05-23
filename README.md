@@ -128,7 +128,7 @@ The visual language is cinematic, dark by default, and mildly dramatic in a way 
 ### Prerequisites
 
 - Android Studio
-- An Android SDK compatible with `compileSdk 36` / `targetSdk 36`
+- An Android SDK with API 36 (`compileSdk 36` / `targetSdk 36`)
 - Gradle `9.1+` if you plan to build outside Android Studio (this repo does not commit `gradlew`)
 
 ### Local run

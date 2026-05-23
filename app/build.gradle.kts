@@ -8,7 +8,7 @@ plugins {
 
 android {
   namespace = "com.example"
-  compileSdk { version = release(36) { minorApiLevel = 1 } }
+  compileSdk = 36
 
   val releaseKeystorePath = System.getenv("KEYSTORE_PATH")
   val releaseStorePassword = System.getenv("STORE_PASSWORD")
