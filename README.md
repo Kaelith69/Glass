@@ -129,7 +129,7 @@ The visual language is cinematic, dark by default, and mildly dramatic in a way 
 
 - Android Studio
 - An Android SDK compatible with `compileSdk 36` / `targetSdk 36`
-- A local Gradle installation if you plan to build outside Android Studio
+- Gradle `9.1+` if you plan to build outside Android Studio (this repo does not commit `gradlew`)
 
 ### Local run
 
@@ -156,10 +156,11 @@ The current app code does **not** read runtime secrets, but the repo is wired fo
 - **Builds**: Every push to `main` or `develop` and all pull requests trigger a build via [`.github/workflows/android-build.yml`](.github/workflows/android-build.yml)
   - Builds debug and test APKs
   - Runs lint and unit tests
+  - Uses pinned Gradle `9.1.0` and Java `17` in CI
   - Uploads artifacts for 5 days
 - **Releases**: Pushing a git tag matching `v*.*.*` (e.g., `v1.0.0`) triggers [`.github/workflows/android-release.yml`](.github/workflows/android-release.yml)
-  - Builds release APK + AAB from `:app`
-  - Publishes a GitHub Release and uploads assets
+  - Builds release APK from `:app`
+  - Publishes a GitHub Release and uploads the APK asset
   - Always uploads an APK asset named `app-release.apk` for stable linking
   - Uses signing only when `KEYSTORE_PATH`, `STORE_PASSWORD`, and `KEY_PASSWORD` are set in the runner environment; otherwise publishes unsigned release artifacts
 
@@ -167,10 +168,10 @@ The current app code does **not** read runtime secrets, but the repo is wired fo
 
 ```bash
 # Debug build
-./gradlew assembleDebug
+gradle :app:assembleDebug
 
 # Release build (requires signing credentials)
-./gradlew assembleRelease
+gradle :app:assembleRelease
 ```
 
 ### Optional Signing Configuration
@@ -186,9 +187,18 @@ To enable signed release artifacts in CI, provide signing values in the workflow
 
 Once configured, pushing a tag matching `v*.*.*` (e.g., `v1.0.0`) will:
 
-- Automatically build a signed release APK and AAB
-- Create a GitHub Release with artifacts attached
+- Automatically build a signed release APK
+- Create a GitHub Release with the APK attached
 - Make the build available for download
+
+### APK build troubleshooting
+
+If an APK is not generated in GitHub Actions, check these first:
+
+- Ensure the release was triggered from a tag like `v1.0.0` (branch pushes do not run the release workflow).
+- Confirm the release workflow run used the latest workflow revision (older runs may not have pinned Gradle).
+- Verify the `Build release APK` step succeeded before `Prepare release assets`.
+- For signed builds, verify `KEYSTORE_PATH`, `STORE_PASSWORD`, and `KEY_PASSWORD` are correctly configured.
 
 ## Downloads
 

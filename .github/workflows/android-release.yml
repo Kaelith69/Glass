@@ -28,15 +28,14 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.1.0'
       
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
       
       - name: Build release APK
         run: gradle :app:assembleRelease
-      
-      - name: Build release bundle
-        run: gradle :app:bundleRelease
       
       - name: Get version from tag
         id: get_version
@@ -63,10 +62,6 @@ jobs:
             exit 1
           fi
 
-          if [ -f app/build/outputs/bundle/release/app-release.aab ]; then
-            cp app/build/outputs/bundle/release/app-release.aab dist/app-release.aab
-          fi
-      
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
@@ -76,7 +71,6 @@ jobs:
           prerelease: false
           files: |
             dist/app-release.apk
-            dist/app-release.aab
           generate_release_notes: true
 
 
