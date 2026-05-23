@@ -33,9 +33,15 @@ jobs:
       
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+
+      - name: Install Android 36 SDK packages
+        shell: bash
+        run: |
+          sdkmanager "platforms;android-36" "build-tools;36.0.0"
       
       - name: Build debug APK
         run: |
+          set -euo pipefail
           gradle :app:assembleDebug --no-daemon --stacktrace 2>&1 | tee build-assembleDebug.log
       
       - name: Upload debug APK
@@ -55,6 +61,7 @@ jobs:
       
       - name: Build debug test APK
         run: |
+          set -euo pipefail
           gradle :app:assembleDebugAndroidTest --no-daemon --stacktrace 2>&1 | tee build-assembleDebugAndroidTest.log
       
       - name: Upload debug test APK
@@ -94,9 +101,15 @@ jobs:
       
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+
+      - name: Install Android 36 SDK packages
+        shell: bash
+        run: |
+          sdkmanager "platforms;android-36" "build-tools;36.0.0"
       
       - name: Run lint checks
         run: |
+          set -euo pipefail
           gradle :app:lint --no-daemon --stacktrace 2>&1 | tee build-lint.log
       
       - name: Upload lint results
@@ -137,9 +150,15 @@ jobs:
       
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+
+      - name: Install Android 36 SDK packages
+        shell: bash
+        run: |
+          sdkmanager "platforms;android-36" "build-tools;36.0.0"
       
       - name: Run unit tests
         run: |
+          set -euo pipefail
           gradle :app:test --no-daemon --stacktrace 2>&1 | tee build-test.log
       
       - name: Upload test results
