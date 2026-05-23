@@ -11,6 +11,12 @@
   <a href="https://github.com/Kaelith69/Glass/releases">
     <img src="https://img.shields.io/github/v/release/Kaelith69/Glass" alt="Latest Release" />
   </a>
+  <a href="https://github.com/Kaelith69/Glass/releases/latest/download/app-release.apk">
+    <img src="https://img.shields.io/badge/Download-Latest%20APK-2ea44f" alt="Download Latest APK" />
+  </a>
+  <a href="https://github.com/Kaelith69/Glass/releases/latest/download/app-release.apk">
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FKaelith69%2FGlass%2Fmain%2Fdocs%2Freadme%2Fapk-size-badge.json" alt="Latest APK Size" />
+  </a>
 </p>
 
 > A local-first Android movie app for people who treat metadata like a civic duty.
@@ -138,7 +144,7 @@ The current app code does **not** read runtime secrets, but the repo is wired fo
 
 - `.env` / `.env.example` are configured for the Secrets Gradle Plugin.
 - `GEMINI_API_KEY` exists as a placeholder for future Gemini usage.
-- Release signing expects:
+- Optional release signing uses:
   - `KEYSTORE_PATH`
   - `STORE_PASSWORD`
   - `KEY_PASSWORD`
@@ -152,9 +158,10 @@ The current app code does **not** read runtime secrets, but the repo is wired fo
   - Runs lint and unit tests
   - Uploads artifacts for 5 days
 - **Releases**: Pushing a git tag matching `v*.*.*` (e.g., `v1.0.0`) triggers [`.github/workflows/android-release.yml`](.github/workflows/android-release.yml)
-  - Builds a signed release APK and bundle
-  - Creates a GitHub release with both artifacts attached
-  - Requires repository secrets: `KEYSTORE_PATH`, `STORE_PASSWORD`, `KEY_PASSWORD`
+  - Builds release APK + AAB from `:app`
+  - Publishes a GitHub Release and uploads assets
+  - Always uploads an APK asset named `app-release.apk` for stable linking
+  - Uses signing only when `KEYSTORE_PATH`, `STORE_PASSWORD`, and `KEY_PASSWORD` are set in the runner environment; otherwise publishes unsigned release artifacts
 
 **Local build:**
 
@@ -166,17 +173,19 @@ The current app code does **not** read runtime secrets, but the repo is wired fo
 ./gradlew assembleRelease
 ```
 
-### Configuring Release Workflow Secrets
+### Optional Signing Configuration
 
-To enable automated releases with code signing, add these repository secrets in GitHub:
+To enable signed release artifacts in CI, provide signing values in the workflow runner environment:
 
 1. Go to **Settings** → **Secrets and variables** → **Actions**
 2. Create the following secrets:
-   - `KEYSTORE_PATH`: Path to your keystore file (base64 encoded or file content)
-   - `STORE_PASSWORD`: Keystore password
-   - `KEY_PASSWORD`: Key password
+
+- `KEYSTORE_PATH`: Absolute path on the runner to a keystore file
+- `STORE_PASSWORD`: Keystore password
+- `KEY_PASSWORD`: Key password
 
 Once configured, pushing a tag matching `v*.*.*` (e.g., `v1.0.0`) will:
+
 - Automatically build a signed release APK and AAB
 - Create a GitHub Release with artifacts attached
 - Make the build available for download
@@ -185,7 +194,8 @@ Once configured, pushing a tag matching `v*.*.*` (e.g., `v1.0.0`) will:
 
 **Get the latest release:**
 
-- **APK**: Download the latest debug build from [GitHub Releases](https://github.com/Kaelith69/Glass/releases)
+- **APK (direct latest link)**: [Download app-release.apk](https://github.com/Kaelith69/Glass/releases/latest/download/app-release.apk)
+- **All release assets**: [GitHub Releases](https://github.com/Kaelith69/Glass/releases)
 - **Debug builds**: Available as artifacts from [GitHub Actions](https://github.com/Kaelith69/Glass/actions/workflows/android-build.yml)
 
 ### Installation
@@ -276,4 +286,3 @@ So the docs are honest, if not glamorous.
 
 No license file is present.
 For an open-source release, **MIT** is the simplest default; **Apache-2.0** is the safer pick if you want a patent grant in the room.
-

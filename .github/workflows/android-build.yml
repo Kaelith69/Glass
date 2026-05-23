@@ -23,14 +23,17 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
       
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
       
       - name: Build debug APK
-        run: gradle assembleDebug
+        run: gradle :app:assembleDebug
       
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
@@ -40,7 +43,7 @@ jobs:
           retention-days: 5
       
       - name: Build debug test APK
-        run: gradle assembleDebugAndroidTest
+        run: gradle :app:assembleDebugAndroidTest
       
       - name: Upload debug test APK
         uses: actions/upload-artifact@v4
@@ -61,14 +64,17 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
       
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
       
       - name: Run lint checks
-        run: gradle lint || true
+        run: gradle :app:lint
       
       - name: Upload lint results
         uses: actions/upload-artifact@v4
@@ -90,14 +96,17 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
       
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
       
       - name: Run unit tests
-        run: gradle test || true
+        run: gradle :app:test
       
       - name: Upload test results
         uses: actions/upload-artifact@v4

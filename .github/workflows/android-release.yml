@@ -8,7 +8,7 @@ on:
     inputs:
       tag:
         description: 'Release tag (e.g., v1.0.0)'
-        required: false
+        required: true
 
 jobs:
   release:
@@ -23,53 +23,60 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
       
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
       
       - name: Build release APK
-        run: gradle assembleRelease
-        env:
-          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
-          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: gradle :app:assembleRelease
       
       - name: Build release bundle
-        run: gradle bundleRelease
-        env:
-          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
-          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: gradle :app:bundleRelease
       
       - name: Get version from tag
         id: get_version
+        shell: bash
         run: |
-          if [ -n "${{ github.ref }}" ] && [[ "${{ github.ref }}" == refs/tags/* ]]; then
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
             TAG=${GITHUB_REF#refs/tags/}
-            VERSION=${TAG#v}
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
-            echo "tag=$TAG" >> $GITHUB_OUTPUT
+            echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           else
-            # For manual workflow dispatch, use the input or generate from build.gradle
-            VERSION=$(date +%Y%m%d)
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
-            echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+            echo "tag=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Prepare release assets
+        shell: bash
+        run: |
+          mkdir -p dist
+
+          if [ -f app/build/outputs/apk/release/app-release.apk ]; then
+            cp app/build/outputs/apk/release/app-release.apk dist/app-release.apk
+          elif [ -f app/build/outputs/apk/release/app-release-unsigned.apk ]; then
+            cp app/build/outputs/apk/release/app-release-unsigned.apk dist/app-release.apk
+          else
+            echo "Release APK not found"
+            exit 1
+          fi
+
+          if [ -f app/build/outputs/bundle/release/app-release.aab ]; then
+            cp app/build/outputs/bundle/release/app-release.aab dist/app-release.aab
           fi
       
       - name: Create release
-        id: create_release
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v2
         with:
-          tag: ${{ steps.get_version.outputs.tag }}
+          tag_name: ${{ steps.get_version.outputs.tag }}
           name: Release ${{ steps.get_version.outputs.tag }}
           draft: false
           prerelease: false
-          artifacts: |
-            app/build/outputs/apk/release/app-release.apk
-            app/build/outputs/bundle/release/app-release.aab
-          token: ${{ secrets.GITHUB_TOKEN }}
-        if: startsWith(github.ref, 'refs/tags/')
+          files: |
+            dist/app-release.apk
+            dist/app-release.aab
+          generate_release_notes: true
 
 
