@@ -35,7 +35,8 @@ jobs:
         uses: android-actions/setup-android@v3
       
       - name: Build debug APK
-        run: gradle :app:assembleDebug
+        run: |
+          gradle :app:assembleDebug --no-daemon --stacktrace 2>&1 | tee build-assembleDebug.log
       
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
@@ -43,15 +44,32 @@ jobs:
           name: debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 5
+
+      - name: Upload assemble debug log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-assembleDebug-log
+          path: build-assembleDebug.log
+          retention-days: 5
       
       - name: Build debug test APK
-        run: gradle :app:assembleDebugAndroidTest
+        run: |
+          gradle :app:assembleDebugAndroidTest --no-daemon --stacktrace 2>&1 | tee build-assembleDebugAndroidTest.log
       
       - name: Upload debug test APK
         uses: actions/upload-artifact@v4
         with:
           name: debug-test-apk
           path: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+          retention-days: 5
+
+      - name: Upload assemble debug androidTest log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-assembleDebugAndroidTest-log
+          path: build-assembleDebugAndroidTest.log
           retention-days: 5
 
   lint:
@@ -78,7 +96,8 @@ jobs:
         uses: android-actions/setup-android@v3
       
       - name: Run lint checks
-        run: gradle :app:lint
+        run: |
+          gradle :app:lint --no-daemon --stacktrace 2>&1 | tee build-lint.log
       
       - name: Upload lint results
         uses: actions/upload-artifact@v4
@@ -87,6 +106,14 @@ jobs:
           path: app/build/reports/lint-results*.html
           retention-days: 5
         if: always()
+
+      - name: Upload lint log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-lint-log
+          path: build-lint.log
+          retention-days: 5
 
   test:
     runs-on: ubuntu-latest
@@ -112,7 +139,8 @@ jobs:
         uses: android-actions/setup-android@v3
       
       - name: Run unit tests
-        run: gradle :app:test
+        run: |
+          gradle :app:test --no-daemon --stacktrace 2>&1 | tee build-test.log
       
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -121,5 +149,13 @@ jobs:
           path: app/build/reports/tests/
           retention-days: 5
         if: always()
+
+      - name: Upload test log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-test-log
+          path: build-test.log
+          retention-days: 5
 
 
