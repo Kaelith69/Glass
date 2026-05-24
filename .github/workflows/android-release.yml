@@ -45,15 +45,17 @@ jobs:
           set -euo pipefail
           base64 -d debug.keystore.base64 > debug.keystore
           chmod 600 debug.keystore
+          echo "KEYSTORE_PATH=$(pwd)/debug.keystore" >> $GITHUB_ENV
+          echo "✓ Keystore decoded to: $(pwd)/debug.keystore"
           ls -lh debug.keystore
       
       - name: Build release APK with signing
         env:
-          KEYSTORE_PATH: ${{ github.workspace }}/debug.keystore
           STORE_PASSWORD: android
           KEY_PASSWORD: android
         run: |
           set -euo pipefail
+          echo "Using keystore: $KEYSTORE_PATH"
           gradle :app:assembleRelease --no-daemon --stacktrace 2>&1 | tee build-assembleRelease.log
 
       - name: Verify release signing
