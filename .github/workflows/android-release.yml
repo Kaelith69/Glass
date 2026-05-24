@@ -114,7 +114,7 @@ jobs:
 
           # Verify signature blocks exist
           echo "Checking signature blocks..."
-          if ! jar tf "$APK_PATH" | grep -q "META-INF/.*\.RSA\|META-INF/.*\.SF"; then
+          if ! jar tf "$APK_PATH" | grep -qE "META-INF/.*\.(RSA|SF)$"; then
             echo "ERROR: No signature blocks found - APK is unsigned"
             exit 1
           fi
