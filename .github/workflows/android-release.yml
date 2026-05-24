@@ -51,11 +51,17 @@ jobs:
       
       - name: Build release APK with signing
         env:
+          KEYSTORE_PATH: ${{ github.workspace }}/debug.keystore
           STORE_PASSWORD: android
           KEY_PASSWORD: android
         run: |
           set -euo pipefail
-          echo "Using keystore: $KEYSTORE_PATH"
+          if [ ! -f "$KEYSTORE_PATH" ]; then
+            echo "ERROR: Keystore not found at $KEYSTORE_PATH"
+            exit 1
+          fi
+          echo "✓ Keystore present at: $KEYSTORE_PATH"
+          echo "✓ Building with KEYSTORE_PATH=$KEYSTORE_PATH"
           gradle :app:assembleRelease --no-daemon --stacktrace 2>&1 | tee build-assembleRelease.log
 
       - name: Verify release signing
