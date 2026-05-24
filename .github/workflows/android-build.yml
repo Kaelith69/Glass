@@ -42,9 +42,13 @@ jobs:
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - name: Build debug APK
+        env:
+          JAVA_OPTS: -Djava.awt.headless=true -Dksp.incremental.log=false
+          ORG_GRADLE_PROJECT_org_gradle_jvmargs: -Xmx4g -Dfile.encoding=UTF-8 -Djava.awt.headless=true
         run: |
           set -euo pipefail
-          gradle :app:assembleDebug --no-daemon --stacktrace 2>&1 | tee build-debug.log
+          export JAVA_OPTS="-Xmx4g -Dfile.encoding=UTF-8 -Djava.awt.headless=true -Dksp.incremental.log=false"
+          gradle :app:assembleDebug -Djava.awt.headless=true --no-daemon --stacktrace 2>&1 | tee build-debug.log
           if [ ! -f "app/build/outputs/apk/debug/app-debug.apk" ]; then
             echo "ERROR: Debug APK build failed"
             exit 1
@@ -52,9 +56,13 @@ jobs:
           echo "✓ Debug APK built successfully"
 
       - name: Build test APK
+        env:
+          JAVA_OPTS: -Djava.awt.headless=true -Dksp.incremental.log=false
+          ORG_GRADLE_PROJECT_org_gradle_jvmargs: -Xmx4g -Dfile.encoding=UTF-8 -Djava.awt.headless=true
         run: |
           set -euo pipefail
-          gradle :app:assembleDebugAndroidTest --no-daemon --stacktrace 2>&1 | tee build-test.log
+          export JAVA_OPTS="-Xmx4g -Dfile.encoding=UTF-8 -Djava.awt.headless=true -Dksp.incremental.log=false"
+          gradle :app:assembleDebugAndroidTest -Djava.awt.headless=true --no-daemon --stacktrace 2>&1 | tee build-test.log
           if [ ! -f "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk" ]; then
             echo "ERROR: Test APK build failed"
             exit 1

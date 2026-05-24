@@ -64,7 +64,8 @@ jobs:
           KEYSTORE_PATH: ${{ github.workspace }}/debug.keystore
           STORE_PASSWORD: android
           KEY_PASSWORD: android
-          JAVA_OPTS: -Djava.awt.headless=true
+          JAVA_OPTS: -Djava.awt.headless=true -Dksp.incremental.log=false
+          ORG_GRADLE_PROJECT_org_gradle_jvmargs: -Xmx4g -Dfile.encoding=UTF-8 -Djava.awt.headless=true
         run: |
           set -euo pipefail
 
@@ -73,8 +74,12 @@ jobs:
             exit 1
           fi
 
+          export JAVA_OPTS="-Xmx4g -Dfile.encoding=UTF-8 -Djava.awt.headless=true -Dksp.incremental.log=false"
           echo "Building release APK (headless mode)..."
+          echo "JAVA_OPTS=$JAVA_OPTS"
+          
           gradle :app:assembleRelease \
+            -Djava.awt.headless=true \
             --no-daemon \
             --stacktrace \
             2>&1 | tee build-assembleRelease.log
