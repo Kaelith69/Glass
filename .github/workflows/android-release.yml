@@ -39,7 +39,19 @@ jobs:
         run: |
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
       
-      - name: Build release APK
+      - name: Decode debug keystore
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 -d debug.keystore.base64 > debug.keystore
+          chmod 600 debug.keystore
+          ls -lh debug.keystore
+      
+      - name: Build release APK with signing
+        env:
+          KEYSTORE_PATH: ${{ github.workspace }}/debug.keystore
+          STORE_PASSWORD: android
+          KEY_PASSWORD: android
         run: |
           set -euo pipefail
           gradle :app:assembleRelease --no-daemon --stacktrace 2>&1 | tee build-assembleRelease.log
@@ -49,19 +61,22 @@ jobs:
         run: |
           set -euo pipefail
 
-          if [ -z "${KEYSTORE_PATH:-}" ] || [ -z "${STORE_PASSWORD:-}" ] || [ -z "${KEY_PASSWORD:-}" ]; then
-            echo "Release signing secrets are missing. Refusing to publish an unsigned APK."
-            exit 1
-          fi
-
           APK_PATH="app/build/outputs/apk/release/app-release.apk"
           if [ ! -f "$APK_PATH" ]; then
-            echo "Expected signed APK not found at $APK_PATH"
+            echo "ERROR: Expected signed APK not found at $APK_PATH"
             ls -R app/build/outputs/apk/release || true
             exit 1
           fi
 
-          jar tf "$APK_PATH" | grep -Eq 'META-INF/.*\.(RSA|DSA|EC)$'
+          echo "Checking for signature blocks in APK..."
+          if ! jar tf "$APK_PATH" | grep -Eq 'META-INF/.*\.(RSA|DSA|EC)$'; then
+            echo "ERROR: No signature blocks found in APK. Build produced unsigned APK."
+            jar tf "$APK_PATH" | grep META-INF | head -20
+            exit 1
+          fi
+
+          echo "✓ APK is properly signed with signature blocks present."
+          jar tf "$APK_PATH" | grep -E 'META-INF/.*\.(RSA|DSA|EC|SF)$' | head -10
 
       - name: Generate APK checksum
         shell: bash
