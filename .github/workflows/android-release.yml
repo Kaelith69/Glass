@@ -95,6 +95,7 @@ jobs:
           set -euo pipefail
 
           APK_PATH="app/build/outputs/apk/release/app-release.apk"
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
 
           echo "Verifying APK integrity and signing..."
 
@@ -112,17 +113,25 @@ jobs:
           fi
           echo "✓ ZIP structure valid"
 
-          # Verify signature blocks exist
-          echo "Checking signature blocks..."
-          if ! jar tf "$APK_PATH" | grep -qE "META-INF/.*\.(RSA|SF)$"; then
-            echo "ERROR: No signature blocks found - APK is unsigned"
+          # Verify signature with apksigner (covers v2/v3 signatures)
+          if [ -z "$SDK_ROOT" ]; then
+            echo "ERROR: ANDROID_SDK_ROOT/ANDROID_HOME not set"
             exit 1
           fi
-          echo "✓ Signature blocks present"
+
+          APKSIGNER="$SDK_ROOT/build-tools/36.0.0/apksigner"
+          if [ ! -x "$APKSIGNER" ]; then
+            echo "ERROR: apksigner not found at $APKSIGNER"
+            exit 1
+          fi
+
+          echo "Checking signature with apksigner..."
+          "$APKSIGNER" verify --verbose --print-certs "$APK_PATH"
+          echo "✓ APK signature verified"
 
           # List signature files
           echo "Signature files:"
-          jar tf "$APK_PATH" | grep "META-INF/" | grep -E "\.(RSA|SF|MF)$" | sed 's/^/  /'
+          jar tf "$APK_PATH" | grep "META-INF/" | grep -E "\.(RSA|SF|MF)$" | sed 's/^/  /' || true
 
       - name: Generate APK checksum
         shell: bash
