@@ -32,7 +32,7 @@ android {
       create("release") {
         storeFile = file(releaseKeystorePath)
         storePassword = releaseStorePassword
-        keyAlias = "upload"
+        keyAlias = "androiddebugkey"
         keyPassword = releaseKeyPassword
       }
     }
