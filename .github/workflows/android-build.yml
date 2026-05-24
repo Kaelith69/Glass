@@ -15,166 +15,170 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: gradle
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.3.1'
-      
+          cache-read-only: false
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Android 36 SDK packages
+      - name: Install Android SDK packages
         shell: bash
         run: |
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
-      
+
       - name: Build debug APK
         run: |
           set -euo pipefail
-          gradle :app:assembleDebug --no-daemon --stacktrace 2>&1 | tee build-assembleDebug.log
-      
-      - name: Upload debug APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
-          retention-days: 5
+          gradle :app:assembleDebug --no-daemon --stacktrace 2>&1 | tee build-debug.log
+          if [ ! -f "app/build/outputs/apk/debug/app-debug.apk" ]; then
+            echo "ERROR: Debug APK build failed"
+            exit 1
+          fi
+          echo "✓ Debug APK built successfully"
 
-      - name: Upload assemble debug log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-assembleDebug-log
-          path: build-assembleDebug.log
-          retention-days: 5
-      
-      - name: Build debug test APK
+      - name: Build test APK
         run: |
           set -euo pipefail
-          gradle :app:assembleDebugAndroidTest --no-daemon --stacktrace 2>&1 | tee build-assembleDebugAndroidTest.log
-      
-      - name: Upload debug test APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-test-apk
-          path: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-          retention-days: 5
+          gradle :app:assembleDebugAndroidTest --no-daemon --stacktrace 2>&1 | tee build-test.log
+          if [ ! -f "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk" ]; then
+            echo "ERROR: Test APK build failed"
+            exit 1
+          fi
+          echo "✓ Test APK built successfully"
 
-      - name: Upload assemble debug androidTest log
+      - name: Upload build artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: build-assembleDebugAndroidTest-log
-          path: build-assembleDebugAndroidTest.log
+          name: build-apks
+          path: |
+            app/build/outputs/apk/debug/app-debug.apk
+            app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+          retention-days: 5
+
+      - name: Upload build logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: build-*.log
           retention-days: 5
 
   lint:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: gradle
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.3.1'
-      
+          cache-read-only: false
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Android 36 SDK packages
+      - name: Install Android SDK packages
         shell: bash
         run: |
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
-      
+
       - name: Run lint checks
         run: |
           set -euo pipefail
-          gradle :app:lint --no-daemon --stacktrace 2>&1 | tee build-lint.log
-      
-      - name: Upload lint results
+          gradle :app:lint --no-daemon --stacktrace 2>&1 | tee lint.log
+          echo "✓ Lint checks completed"
+
+      - name: Upload lint reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: lint-results
           path: app/build/reports/lint-results*.html
           retention-days: 5
-        if: always()
 
       - name: Upload lint log
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: build-lint-log
-          path: build-lint.log
+          name: lint-log
+          path: lint.log
           retention-days: 5
 
   test:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: gradle
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.3.1'
-      
+          cache-read-only: false
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Android 36 SDK packages
+      - name: Install Android SDK packages
         shell: bash
         run: |
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
-      
+
       - name: Run unit tests
         run: |
           set -euo pipefail
-          gradle :app:test --no-daemon --stacktrace 2>&1 | tee build-test.log
-      
+          gradle :app:test --no-daemon --stacktrace 2>&1 | tee test.log
+          echo "✓ Unit tests completed"
+
       - name: Upload test results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: app/build/reports/tests/
           retention-days: 5
-        if: always()
 
       - name: Upload test log
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: build-test-log
-          path: build-test.log
+          name: test-log
+          path: test.log
           retention-days: 5
-
-

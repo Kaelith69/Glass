@@ -15,119 +15,172 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: gradle
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.3.1'
-      
+          cache-read-only: false
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Android 36 SDK packages
+      - name: Install Android SDK packages
         shell: bash
         run: |
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
-      
+
+      - name: Validate keystore file
+        shell: bash
+        run: |
+          if [ ! -f "debug.keystore.base64" ]; then
+            echo "ERROR: debug.keystore.base64 not found in repository root"
+            exit 1
+          fi
+          echo "✓ Keystore file exists"
+
       - name: Decode debug keystore
         shell: bash
         run: |
           set -euo pipefail
           base64 -d debug.keystore.base64 > debug.keystore
           chmod 600 debug.keystore
-          echo "KEYSTORE_PATH=$(pwd)/debug.keystore" >> $GITHUB_ENV
-          echo "✓ Keystore decoded to: $(pwd)/debug.keystore"
+          echo "✓ Keystore decoded successfully"
           ls -lh debug.keystore
-      
-      - name: Build release APK with signing
+
+      - name: Build release APK
         env:
           KEYSTORE_PATH: ${{ github.workspace }}/debug.keystore
           STORE_PASSWORD: android
           KEY_PASSWORD: android
+          JAVA_OPTS: -Djava.awt.headless=true
         run: |
           set -euo pipefail
+
           if [ ! -f "$KEYSTORE_PATH" ]; then
             echo "ERROR: Keystore not found at $KEYSTORE_PATH"
             exit 1
           fi
-          echo "✓ Keystore present at: $KEYSTORE_PATH"
-          echo "✓ Building with KEYSTORE_PATH=$KEYSTORE_PATH"
-          gradle :app:assembleRelease --no-daemon --stacktrace 2>&1 | tee build-assembleRelease.log
 
-      - name: Verify release signing
+          echo "Building release APK (headless mode)..."
+          gradle :app:assembleRelease \
+            --no-daemon \
+            --stacktrace \
+            2>&1 | tee build-assembleRelease.log
+
+          if [ ! -f "app/build/outputs/apk/release/app-release.apk" ]; then
+            echo "ERROR: APK build failed - file not found"
+            find app/build/outputs -type f 2>/dev/null | head -10 || true
+            exit 1
+          fi
+
+          echo "✓ APK built successfully"
+          ls -lh app/build/outputs/apk/release/app-release.apk
+
+      - name: Verify APK signing
         shell: bash
         run: |
           set -euo pipefail
 
           APK_PATH="app/build/outputs/apk/release/app-release.apk"
+
+          echo "Verifying APK integrity and signing..."
+
+          # Check APK exists
           if [ ! -f "$APK_PATH" ]; then
-            echo "ERROR: Expected signed APK not found at $APK_PATH"
-            ls -R app/build/outputs/apk/release || true
+            echo "ERROR: APK not found at $APK_PATH"
             exit 1
           fi
 
-          echo "Checking for signature blocks in APK..."
-          if ! jar tf "$APK_PATH" | grep -Eq 'META-INF/.*\.(RSA|DSA|EC)$'; then
-            echo "ERROR: No signature blocks found in APK. Build produced unsigned APK."
-            jar tf "$APK_PATH" | grep META-INF | head -20
+          # Verify ZIP integrity
+          echo "Checking APK ZIP structure..."
+          if ! unzip -t "$APK_PATH" > /dev/null 2>&1; then
+            echo "ERROR: APK ZIP structure is corrupted"
             exit 1
           fi
+          echo "✓ ZIP structure valid"
 
-          echo "✓ APK is properly signed with signature blocks present."
-          jar tf "$APK_PATH" | grep -E 'META-INF/.*\.(RSA|DSA|EC|SF)$' | head -10
+          # Verify signature blocks exist
+          echo "Checking signature blocks..."
+          if ! jar tf "$APK_PATH" | grep -q "META-INF/.*\.RSA\|META-INF/.*\.SF"; then
+            echo "ERROR: No signature blocks found - APK is unsigned"
+            exit 1
+          fi
+          echo "✓ Signature blocks present"
+
+          # List signature files
+          echo "Signature files:"
+          jar tf "$APK_PATH" | grep "META-INF/" | grep -E "\.(RSA|SF|MF)$" | sed 's/^/  /'
 
       - name: Generate APK checksum
         shell: bash
         run: |
           set -euo pipefail
-          sha256sum app/build/outputs/apk/release/app-release.apk | tee app-release.apk.sha256
+          cd app/build/outputs/apk/release
+          sha256sum app-release.apk | tee app-release.apk.sha256
+          echo "✓ Checksum generated"
 
-      - name: Upload assembleRelease log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-assembleRelease-log
-          path: build-assembleRelease.log
-          retention-days: 5
-      
-      - name: Get version from tag
-        id: get_version
+      - name: Stage release assets
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp app/build/outputs/apk/release/app-release.apk dist/
+          cp app/build/outputs/apk/release/app-release.apk.sha256 dist/
+          echo "✓ Release assets staged"
+          ls -lh dist/
+
+      - name: Extract release version
+        id: release_version
         shell: bash
         run: |
           if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
             TAG=${GITHUB_REF#refs/tags/}
-            echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           else
-            echo "tag=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+            TAG="${{ github.event.inputs.tag }}"
           fi
 
-      - name: Prepare release assets
-        shell: bash
-        run: |
-          mkdir -p dist
-          cp app/build/outputs/apk/release/app-release.apk dist/app-release.apk
-          cp app-release.apk.sha256 dist/app-release.apk.sha256
+          if [ -z "$TAG" ]; then
+            echo "ERROR: Could not determine release tag"
+            exit 1
+          fi
 
-      - name: Create release
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "✓ Release version: $TAG"
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.get_version.outputs.tag }}
-          name: Release ${{ steps.get_version.outputs.tag }}
+          tag_name: ${{ steps.release_version.outputs.tag }}
+          name: Release ${{ steps.release_version.outputs.tag }}
           draft: false
           prerelease: false
           files: |
             dist/app-release.apk
             dist/app-release.apk.sha256
           generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-build-log
+          path: build-assembleRelease.log
+          retention-days: 5
 
+      - name: Release completed
+        shell: bash
+        run: |
+          echo "✓ Release v${{ steps.release_version.outputs.tag }} published successfully"
