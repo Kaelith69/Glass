@@ -44,6 +44,31 @@ jobs:
           set -euo pipefail
           gradle :app:assembleRelease --no-daemon --stacktrace 2>&1 | tee build-assembleRelease.log
 
+      - name: Verify release signing
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -z "${KEYSTORE_PATH:-}" ] || [ -z "${STORE_PASSWORD:-}" ] || [ -z "${KEY_PASSWORD:-}" ]; then
+            echo "Release signing secrets are missing. Refusing to publish an unsigned APK."
+            exit 1
+          fi
+
+          APK_PATH="app/build/outputs/apk/release/app-release.apk"
+          if [ ! -f "$APK_PATH" ]; then
+            echo "Expected signed APK not found at $APK_PATH"
+            ls -R app/build/outputs/apk/release || true
+            exit 1
+          fi
+
+          jar tf "$APK_PATH" | grep -Eq 'META-INF/.*\.(RSA|DSA|EC)$'
+
+      - name: Generate APK checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum app/build/outputs/apk/release/app-release.apk | tee app-release.apk.sha256
+
       - name: Upload assembleRelease log
         if: always()
         uses: actions/upload-artifact@v4
@@ -67,15 +92,8 @@ jobs:
         shell: bash
         run: |
           mkdir -p dist
-
-          if [ -f app/build/outputs/apk/release/app-release.apk ]; then
-            cp app/build/outputs/apk/release/app-release.apk dist/app-release.apk
-          elif [ -f app/build/outputs/apk/release/app-release-unsigned.apk ]; then
-            cp app/build/outputs/apk/release/app-release-unsigned.apk dist/app-release.apk
-          else
-            echo "Release APK not found"
-            exit 1
-          fi
+          cp app/build/outputs/apk/release/app-release.apk dist/app-release.apk
+          cp app-release.apk.sha256 dist/app-release.apk.sha256
 
       - name: Create release
         uses: softprops/action-gh-release@v2
@@ -86,6 +104,7 @@ jobs:
           prerelease: false
           files: |
             dist/app-release.apk
+            dist/app-release.apk.sha256
           generate_release_notes: true
 
 
