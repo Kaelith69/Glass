@@ -74,12 +74,9 @@ jobs:
             exit 1
           fi
 
-          echo "Building release APK (KSP IDE integration disabled)..."
+          echo "Building release APK..."
           gradle :app:assembleRelease \
-            -Djava.awt.headless=true \
-            -Dksp.useIDE=false \
             --no-daemon \
-            --no-configuration-cache \
             --stacktrace \
             2>&1 | tee build-assembleRelease.log
 
